@@ -7,18 +7,17 @@ plugins:
     namespace: tap_suiteql
     pip_url: -e .
     capabilities:
+    - properties
     - state
     - catalog
     - discover
     config:
-      start_date: '2010-01-01T00:00:00Z'
-    settings:
-    # TODO: To configure using Meltano, declare settings and their types here:
-    - name: username
-    - name: password
-      kind: password
-    - name: start_date
-      value: '2010-01-01T00:00:00Z'
+      consumer_secret:
+      consumer_key:
+      token_id:
+      token_secret:
+      account_id:
+      base_url:
   loaders:
   - name: target-jsonl
     variant: andyh1203
