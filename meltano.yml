@@ -11,13 +11,19 @@ plugins:
     - state
     - catalog
     - discover
-    config:
-      consumer_secret:
-      consumer_key:
-      token_id:
-      token_secret:
-      account_id:
-      base_url:
+    settings:
+      - name: account_id
+        env: TAP_SUITEQL_ACCOUNT_ID
+      - name: consumer_key
+        env: TAP_SUITEQL_CONSUMER_KEY
+      - name: consumer_secret
+        env: TAP_SUITEQL_CONSUMER_SECRET
+      - name: token_id
+        env: TAP_SUITEQL_TOKEN_ID
+      - name: token_secret
+        env: TAP_SUITEQL_TOKEN_SECRET
+      - name: base_url
+        env: TAP_SUITEQL_BASE_URL
   loaders:
   - name: target-jsonl
     variant: andyh1203

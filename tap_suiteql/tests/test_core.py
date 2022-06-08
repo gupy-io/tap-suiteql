@@ -7,12 +7,12 @@ from singer_sdk.testing import get_standard_tap_tests
 from tap_suiteql.tap import Tapsuiteql
 
 SAMPLE_CONFIG = {
-    "consumer_secret": env["CONSUMER_SECRET"],
-    "consumer_key": env["CONSUMER_KEY"],
-    "token_id": env["TOKEN_ID"],
-    "token_secret": env["TOKEN_SECRET"],
-    "account_id": env["ACCOUNT_ID"],
-    "base_url": env["BASE_URL"],
+    "consumer_secret": env["TAP_SUITEQL_CONSUMER_SECRET"],
+    "consumer_key": env["TAP_SUITEQL_CONSUMER_KEY"],
+    "token_id": env["TAP_SUITEQL_TOKEN_ID"],
+    "token_secret": env["TAP_SUITEQL_TOKEN_SECRET"],
+    "account_id": env["TAP_SUITEQL_ACCOUNT_ID"],
+    "base_url": env["TAP_SUITEQL_BASE_URL"],
 }
 
 

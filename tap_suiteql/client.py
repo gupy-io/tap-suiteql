@@ -1,15 +1,13 @@
 """REST client handling, including suiteqlStream base class."""
 
-from pathlib import Path
 from typing import Any, Dict, Optional, cast
 from urllib.parse import parse_qsl, urlparse
 
+import backoff
 import requests
 from singer_sdk.streams import RESTStream
 
 from tap_suiteql.auth import suiteqlAuthenticator
-
-SCHEMAS_DIR = Path(__file__).parent / Path("./schemas")
 
 
 class suiteqlStream(RESTStream):
@@ -31,6 +29,7 @@ class suiteqlStream(RESTStream):
     next_page_token_jsonpath = "$.links[?(@.rel == 'next')].href"
 
     body_query = ""
+    metadata_path = ""
 
     @property
     def authenticator(self) -> suiteqlAuthenticator:
@@ -80,26 +79,40 @@ class suiteqlStream(RESTStream):
         )
         return request
 
-    def get_one_record(self):
-        url: str = self.get_url(None)
+    def _get_metadata_url(self):
+        if self.metadata_path == "":
+            raise AttributeError("Invalid metadata path")
+
+        return "".join([self.url_base, self.metadata_path or ""])
+
+    @backoff.on_exception(
+        backoff.expo, requests.exceptions.RequestException, max_tries=6
+    )
+    def get_metadata(self):
+        url: str = self._get_metadata_url()
         request_data = self.prepare_request_payload(None, "")
         headers = self.http_headers
         authenticator = self.authenticator
 
+        headers["Accept"] = "application/schema+json"
+        headers["Connection"] = "keep-alive"
+
         auth = authenticator.oauth_object()
 
-        session = requests.Session()
+        prepared_request = cast(
+            requests.PreparedRequest,
+            self.requests_session.prepare_request(
+                requests.Request(
+                    method="GET",
+                    auth=auth,
+                    url=url,
+                    headers=headers,
+                    json=request_data,
+                ),
+            ),
+        )
 
-        prepared_request = requests.Request(
-            method="POST",
-            auth=auth,
-            url=url,
-            params={"limit": 1},
-            headers=headers,
-            json=request_data,
-        ).prepare()
-
-        response = session.send(prepared_request)
+        response = self.requests_session.send(prepared_request)
 
         return response.json()
 
