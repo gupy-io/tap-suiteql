@@ -14,11 +14,15 @@ class SchemaBuilder:
             if attribute != "links":
                 property_list.append(th.Property(attribute, th.StringType))
 
+        if self.stream.replication_key:
+            property_list.append(
+                th.Property(self.stream.replication_key, th.StringType)
+            )
+
         return property_list.to_dict()
 
     def schema(self):
-        record = self.stream.get_one_record()
-
-        attributes = list(record["items"][0].keys())
+        record = self.stream.get_metadata()
+        attributes = record["x-ns-filterable"]
 
         return self._schema_builder(attributes)

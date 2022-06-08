@@ -6,6 +6,7 @@ from tap_suiteql.client import suiteqlStream
 class SubscriptionStream(suiteqlStream):
     name = "Subscription"
     path = "/query/v1/suiteql"
+    metadata_path = "/record/v1/metadata-catalog/subscription"
     # Always sort the replication key and format the replication_key
     body_query = (
         "select * "
@@ -20,6 +21,7 @@ class SubscriptionStream(suiteqlStream):
 class CustomerStream(suiteqlStream):
     name = "Customer"
     path = "/query/v1/suiteql"
+    metadata_path = "/record/v1/metadata-catalog/customer"
     # Always sort the replication key and format the replication_key
     body_query = (
         "select * "
