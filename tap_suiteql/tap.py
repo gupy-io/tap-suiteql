@@ -6,9 +6,9 @@ from singer_sdk import Stream, Tap
 from singer_sdk import typing as th  # JSON schema typing helpers
 
 from tap_suiteql.schema_builder import SchemaBuilder
-from tap_suiteql.streams import CustomerStream, SubscriptionStream
+from tap_suiteql.streams import CustomerStream, InvoiceStream, SubscriptionStream
 
-STREAM_TYPES = [SubscriptionStream, CustomerStream]
+STREAM_TYPES = [SubscriptionStream, CustomerStream, InvoiceStream]
 
 
 class Tapsuiteql(Tap):
