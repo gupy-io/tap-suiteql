@@ -4,6 +4,9 @@ from tap_suiteql.schema_builder import SchemaBuilder
 
 
 class DummyStream:
+
+    replication_key = "somekey"
+
     def get_metadata(self):
         return {
             "x-ns-filterable": [
@@ -11,6 +14,7 @@ class DummyStream:
                 "custbody_o2s_transaction_d_contingenci",
                 "custbody_o2s_transaction_c_outra_reten",
                 "custbody_o2s_to_subsidiary_t_logradour",
+                "renewalNumber",
             ]
         }
 
@@ -21,6 +25,8 @@ def test_schema_definition():
         th.Property("custbody_o2s_transaction_d_contingenci", th.StringType),
         th.Property("custbody_o2s_transaction_c_outra_reten", th.StringType),
         th.Property("custbody_o2s_to_subsidiary_t_logradour", th.StringType),
+        th.Property("renewalnumber", th.StringType),
+        th.Property("somekey", th.StringType),
     ).to_dict()
 
     schema = SchemaBuilder(DummyStream()).schema()
