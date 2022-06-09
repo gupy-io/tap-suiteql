@@ -12,7 +12,7 @@ class SchemaBuilder:
 
         for attribute in attributes:
             if attribute != "links":
-                property_list.append(th.Property(attribute, th.StringType))
+                property_list.append(th.Property(attribute.lower(), th.StringType))
 
         if self.stream.replication_key:
             property_list.append(
