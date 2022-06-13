@@ -31,3 +31,18 @@ class CustomerStream(suiteqlStream):
     )
     primary_keys = ["id"]
     replication_key = "lastmodifieddatetime"
+
+
+class InvoiceStream(suiteqlStream):
+    name = "Invoice"
+    path = "/query/v1/suiteql"
+    metadata_path = "/record/v1/metadata-catalog/invoice"
+    # Always sort the replication key and format the replication_key
+    body_query = (
+        "select * "
+        ",TO_CHAR(lastmodifieddate, 'YYYY-MM-DD HH:MI:SS') as lastmodifieddatetime "
+        "FROM transaction where type = 'CustInvc'"
+        "order by TO_CHAR(lastmodifieddate, 'YYYY-MM-DD HH:MI:SS') ASC"
+    )
+    primary_keys = ["id"]
+    replication_key = "lastmodifieddatetime"
