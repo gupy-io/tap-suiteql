@@ -86,7 +86,7 @@ class suiteqlStream(RESTStream):
         return "".join([self.url_base, self.metadata_path or ""])
 
     @backoff.on_exception(
-        backoff.expo, requests.exceptions.RequestException, max_tries=6
+        backoff.expo, requests.exceptions.RequestException, max_time=300
     )
     def get_metadata(self):
         url: str = self._get_metadata_url()
