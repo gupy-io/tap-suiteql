@@ -16,7 +16,7 @@ class SchemaBuilder:
 
         if self.stream.replication_key:
             property_list.append(
-                th.Property(self.stream.replication_key, th.StringType)
+                th.Property(self.stream.replication_key, th.DateTimeType)
             )
 
         return property_list.to_dict()

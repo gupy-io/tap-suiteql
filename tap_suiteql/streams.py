@@ -10,9 +10,9 @@ class SubscriptionStream(suiteqlStream):
     # Always sort the replication key and format the replication_key
     body_query = """
         select *
-        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD HH:MI:SS') as lastmodifieddatetime
-        from subscription
-        order by TO_CHAR(lastmodifieddate, 'YYYY-MM-DD HH:MI:SS') ASC
+        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
+        FROM subscription
+        order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
     replication_key = "lastmodifieddatetime"
@@ -25,9 +25,9 @@ class CustomerStream(suiteqlStream):
     # Always sort the replication key and format the replication_key
     body_query = """
         select *
-        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD HH:MI:SS') as lastmodifieddatetime
-        from customer
-        order by TO_CHAR(lastmodifieddate, 'YYYY-MM-DD HH:MI:SS') ASC
+        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
+        FROM customer
+        order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
     replication_key = "lastmodifieddatetime"
@@ -40,9 +40,9 @@ class InvoiceStream(suiteqlStream):
     # Always sort the replication key and format the replication_key
     body_query = """
         select *
-        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD HH:MI:SS') as lastmodifieddatetime
+        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
         FROM transaction where type = 'CustInvc'
-        order by TO_CHAR(lastmodifieddate, 'YYYY-MM-DD HH:MI:SS') ASC
+        order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
     replication_key = "lastmodifieddatetime"
@@ -54,9 +54,10 @@ class SubscriptionLineStream(suiteqlStream):
     metadata_path = "/record/v1/metadata-catalog/subscriptionline"
     # Always sort the replication key and format the replication_key
     body_query = """
-        select * ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD HH:MI:SS') as lastmodifieddatetime 
+        select *
+        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime 
         FROM subscriptionline 
-        order by TO_CHAR(lastmodifieddate, 'YYYY-MM-DD HH:MI:SS') ASC
+        order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
     replication_key = "lastmodifieddatetime"

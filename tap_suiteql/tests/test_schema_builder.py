@@ -26,7 +26,7 @@ def test_schema_definition():
         th.Property("custbody_o2s_transaction_c_outra_reten", th.StringType),
         th.Property("custbody_o2s_to_subsidiary_t_logradour", th.StringType),
         th.Property("renewalnumber", th.StringType),
-        th.Property("somekey", th.StringType),
+        th.Property("somekey", th.DateTimeType),
     ).to_dict()
 
     schema = SchemaBuilder(DummyStream()).schema()
