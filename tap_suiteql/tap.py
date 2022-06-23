@@ -28,6 +28,11 @@ class Tapsuiteql(Tap):
 
     config_jsonschema = th.PropertiesList(
         th.Property(
+            "start_date",
+            th.StringType,
+            required=True,
+        ),
+        th.Property(
             "consumer_secret",
             th.StringType,
             required=True,

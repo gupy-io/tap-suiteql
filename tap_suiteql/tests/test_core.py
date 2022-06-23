@@ -7,6 +7,7 @@ from singer_sdk.testing import get_standard_tap_tests
 from tap_suiteql.tap import Tapsuiteql
 
 SAMPLE_CONFIG = {
+    "start_date": env["TAP_SUITEQL_START_DATE"],
     "consumer_secret": env["TAP_SUITEQL_CONSUMER_SECRET"],
     "consumer_key": env["TAP_SUITEQL_CONSUMER_KEY"],
     "token_id": env["TAP_SUITEQL_TOKEN_ID"],
