@@ -5,10 +5,20 @@ from tap_suiteql.schema_builder import SchemaBuilder
 
 class DummyStream:
     schema = {"type": "object", "properties": {}}
+    replication_key = "somekey"
+    def get_metadata(self):
+        return {
+            "x-ns-filterable": [
+                "custbody_o2s_transaction_t_nr_seq_ad",
+                "custbody_o2s_transaction_d_contingenci",
+                "custbody_o2s_transaction_c_outra_reten",
+                "custbody_o2s_to_subsidiary_t_logradour",
+                "renewalNumber",
+            ]
+        }
 
-    def __init__(self, default_schema=False):
-        if default_schema:
-            self.schema = th.PropertiesList(
+class DummyStreamWithSchema:
+    schema = th.PropertiesList(
                 th.Property("catalogtype", th.StringType),
                 th.Property("chargetype", th.StringType),
                 th.Property("enddate", th.StringType),
@@ -27,19 +37,6 @@ class DummyStream:
                 th.Property("status", th.StringType),
                 th.Property("subscription", th.StringType),
             ).to_dict()
-
-    replication_key = "somekey"
-
-    def get_metadata(self):
-        return {
-            "x-ns-filterable": [
-                "custbody_o2s_transaction_t_nr_seq_ad",
-                "custbody_o2s_transaction_d_contingenci",
-                "custbody_o2s_transaction_c_outra_reten",
-                "custbody_o2s_to_subsidiary_t_logradour",
-                "renewalNumber",
-            ]
-        }
 
 
 def test_schema_definition():
@@ -78,5 +75,5 @@ def test_get_default_schema():
         th.Property("subscription", th.StringType),
     ).to_dict()
 
-    schema = SchemaBuilder(DummyStream(default_schema=True)).schema()
+    schema = SchemaBuilder(DummyStreamWithSchema).schema()
     assert expected == schema, "SchemaBuilder should return the default schema"
