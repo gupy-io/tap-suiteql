@@ -11,6 +11,7 @@ from tap_suiteql.streams import (
     InvoiceStream,
     SubscriptionLineStream,
     SubscriptionStream,
+    SubscriptionPriceInterval,
 )
 
 STREAM_TYPES = [
@@ -18,6 +19,7 @@ STREAM_TYPES = [
     CustomerStream,
     InvoiceStream,
     SubscriptionLineStream,
+    SubscriptionPriceInterval,
 ]
 
 
