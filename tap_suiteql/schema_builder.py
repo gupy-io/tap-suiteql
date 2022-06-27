@@ -22,7 +22,9 @@ class SchemaBuilder:
         return property_list.to_dict()
 
     def schema(self):
-        record = self.stream.get_metadata()
-        attributes = record["x-ns-filterable"]
-
-        return self._schema_builder(attributes)
+        if self.stream.schema["properties"] == {}:
+            record = self.stream.get_metadata()
+            attributes = record["x-ns-filterable"]
+            return self._schema_builder(attributes)
+        else:
+            return self.stream.schema
