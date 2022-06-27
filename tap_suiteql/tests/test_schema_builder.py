@@ -9,7 +9,6 @@ class DummyStream:
     def __init__(self, default_schema=False):
         if default_schema:
             self.schema = th.PropertiesList(
-                th.Property("links", th.StringType),
                 th.Property("catalogtype", th.StringType),
                 th.Property("chargetype", th.StringType),
                 th.Property("enddate", th.StringType),
@@ -60,7 +59,6 @@ def test_schema_definition():
 
 def test_get_default_schema():
     expected = th.PropertiesList(
-        th.Property("links", th.StringType),
         th.Property("catalogtype", th.StringType),
         th.Property("chargetype", th.StringType),
         th.Property("enddate", th.StringType),

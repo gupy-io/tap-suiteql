@@ -74,7 +74,6 @@ class SubscriptionPriceInterval(suiteqlStream):
         """
     primary_keys = ["id"]
     schema = th.PropertiesList(
-        th.Property("links", th.StringType),
         th.Property("catalogtype", th.StringType),
         th.Property("chargetype", th.StringType),
         th.Property("enddate", th.StringType),
