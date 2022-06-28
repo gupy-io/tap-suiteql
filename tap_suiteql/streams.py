@@ -96,7 +96,6 @@ class SubscriptionPriceInterval(suiteqlStream):
 class ChangeOrderLineStream(suiteqlStream):
     name = "ChangeOrderLine"
     path = "/query/v1/suiteql"
-    # Always sort the replication key and format the replication_key
     body_query = """
         select *
         FROM changeorderline 
