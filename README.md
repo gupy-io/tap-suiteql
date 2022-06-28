@@ -100,6 +100,19 @@ meltano invoke tap-suiteql --version
 meltano elt tap-suiteql target-jsonl
 ```
 
+### Adding Streams
+There are 2 ways in which we can map entities in this tap
+
+the first is discovering there schema by using the meta-data suiteql endpoint (dinamically), and the second is by manually mapping the properties on the stream (static).
+We extract the following entities with its respective method
+* Subscription -> dynamically
+* Customer -> dinamically
+* Invoice -> dinamically
+* SubscriptionLine -> dinamically
+* SubscriptionPriceInterval -> static
+* ChangeOrderLine -> static
+
+
 ### SDK Dev Guide
 
 See the [dev guide](https://sdk.meltano.com/en/latest/dev_guide.html) for more instructions on how to use the SDK to
