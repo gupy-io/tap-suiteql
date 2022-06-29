@@ -127,6 +127,65 @@ class ChangeOrderLineStream(suiteqlStream):
         th.Property("subscriptionline", th.StringType)
     ).to_dict()
 
+class CustomerPaymentStream(suiteqlStream):
+    name = "CustomerPayment"
+    path = "/query/v1/suiteql"
+    body_query = """
+        select *
+        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
+        FROM transaction where type = 'CustPymt'
+        """
+    primary_keys = ["id"]
+    replication_key = "lastmodifieddatetime"
+    schema = th.PropertiesList(
+        th.Property("abbrevtype",th.StringType),
+        th.Property("balsegstatus",th.StringType),
+        th.Property("billingstatus",th.StringType),
+        th.Property("closedate",th.StringType),
+        th.Property("createdby",th.StringType),
+        th.Property("createddate",th.StringType),
+        th.Property("currency",th.StringType),
+        th.Property("daysopen",th.StringType),
+        th.Property("entity",th.StringType),
+        th.Property("exchangerate",th.StringType),
+        th.Property("foreignpaymentamountunused",th.StringType),
+        th.Property("foreignpaymentamountused",th.StringType),
+        th.Property("foreigntotal",th.StringType),
+        th.Property("id",th.StringType),
+        th.Property("includeinforecast",th.StringType),
+        th.Property("isfinchrg",th.StringType),
+        th.Property("isreversal",th.StringType),
+        th.Property("lastmodifiedby",th.StringType),
+        th.Property("lastmodifieddate",th.StringType),
+        th.Property("legacytax",th.StringType),
+        th.Property("number",th.StringType),
+        th.Property("onetime",th.StringType),
+        th.Property("ordpicked",th.StringType),
+        th.Property("paymenthold",th.StringType),
+        th.Property("posting",th.StringType),
+        th.Property("postingperiod",th.StringType),
+        th.Property("printedpickingticket",th.StringType),
+        th.Property("recordtype",th.StringType),
+        th.Property("recurannually",th.StringType),
+        th.Property("recurmonthly",th.StringType),
+        th.Property("recurquarterly",th.StringType),
+        th.Property("recurweekly",th.StringType),
+        th.Property("status",th.StringType),
+        th.Property("taxdetailsoverride",th.StringType),
+        th.Property("taxpointdateoverride",th.StringType),
+        th.Property("taxregoverride",th.StringType),
+        th.Property("trandate",th.StringType),
+        th.Property("trandisplayname",th.StringType),
+        th.Property("tranid",th.StringType),
+        th.Property("transactionnumber",th.StringType),
+        th.Property("type",th.StringType),
+        th.Property("typebaseddocumentnumber",th.StringType),
+        th.Property("userevenuearrangement",th.StringType),
+        th.Property("visibletocustomer",th.StringType),
+        th.Property("void",th.StringType),
+        th.Property("voided",th.StringType)
+    ).to_dict()
+
 class CustomlistGpyCompanysizeStream(suiteqlStream):
     name = "CustomlistGpyCompanysize"
     path = "/query/v1/suiteql"
