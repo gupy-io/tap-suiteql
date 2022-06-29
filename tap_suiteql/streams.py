@@ -136,6 +136,8 @@ class CustomerPaymentStream(suiteqlStream):
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
         FROM transaction where type = 'CustPymt'
         """
+    primary_keys = ["id"]
+    replication_key = "lastmodifieddatetime"
     schema = th.PropertiesList(
         th.Property("abbrevtype",th.StringType),
         th.Property("balsegstatus",th.StringType),
