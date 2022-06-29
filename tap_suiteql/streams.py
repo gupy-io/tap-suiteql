@@ -64,7 +64,7 @@ class SubscriptionLineStream(suiteqlStream):
     replication_key = "lastmodifieddatetime"
 
 
-class SubscriptionPriceInterval(suiteqlStream):
+class SubscriptionPriceIntervalStream(suiteqlStream):
     name = "SubscriptionPriceInterval"
     path = "/query/v1/suiteql"
     # Always sort the replication key and format the replication_key
@@ -93,6 +93,21 @@ class SubscriptionPriceInterval(suiteqlStream):
         th.Property("subscription", th.StringType),
     ).to_dict()
 
+
+class SubscriptionPlanStream(suiteqlStream):
+    name = "SubscriptionPlan"
+    path = "/query/v1/suiteql"
+    metadata_path = "/record/v1/metadata-catalog/subscriptionplan"
+    # Always sort the replication key and format the replication_key
+    body_query = """
+        select *
+        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
+        FROM subscriptionplan
+        order by lastmodifieddate ASC
+        """
+    primary_keys = ["id"]
+    replication_key = "lastmodifieddatetime"
+
 class ChangeOrderLineStream(suiteqlStream):
     name = "ChangeOrderLine"
     path = "/query/v1/suiteql"
@@ -112,3 +127,4 @@ class ChangeOrderLineStream(suiteqlStream):
         th.Property("subscriptionchangeorder", th.StringType),
         th.Property("subscriptionline", th.StringType)
     ).to_dict()
+
