@@ -92,3 +92,23 @@ class SubscriptionPriceInterval(suiteqlStream):
         th.Property("status", th.StringType),
         th.Property("subscription", th.StringType),
     ).to_dict()
+
+class ChangeOrderLineStream(suiteqlStream):
+    name = "ChangeOrderLine"
+    path = "/query/v1/suiteql"
+    body_query = """
+        select *
+        FROM changeorderline 
+        """
+    schema = th.PropertiesList(
+        th.Property("discount", th.StringType),
+        th.Property("item", th.StringType),
+        th.Property("newdiscount", th.StringType),
+        th.Property("newpriceplan", th.StringType),
+        th.Property("newstatus", th.StringType),
+        th.Property("priceplan", th.StringType),
+        th.Property("sequence", th.StringType),
+        th.Property("status", th.StringType),
+        th.Property("subscriptionchangeorder", th.StringType),
+        th.Property("subscriptionline", th.StringType)
+    ).to_dict()
