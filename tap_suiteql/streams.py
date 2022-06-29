@@ -13,6 +13,7 @@ class SubscriptionStream(suiteqlStream):
         select *
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
         FROM subscription
+        WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
         order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
@@ -28,6 +29,7 @@ class CustomerStream(suiteqlStream):
         select *
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
         FROM customer
+        WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
         order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
@@ -42,7 +44,7 @@ class InvoiceStream(suiteqlStream):
     body_query = """
         select *
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
-        FROM transaction where type = 'CustInvc'
+        FROM transaction where type = 'CustInvc' and lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
         order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
@@ -57,7 +59,8 @@ class SubscriptionLineStream(suiteqlStream):
     body_query = """
         select *
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime 
-        FROM subscriptionline 
+        FROM subscriptionline
+        WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
         order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
@@ -102,6 +105,7 @@ class SubscriptionPlanStream(suiteqlStream):
         select *
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
         FROM subscriptionplan
+        WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
         order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
@@ -133,7 +137,7 @@ class CustomerPaymentStream(suiteqlStream):
     body_query = """
         select *
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
-        FROM transaction where type = 'CustPymt'
+        FROM transaction where type = 'CustPymt' and lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
         """
     primary_keys = ["id"]
     replication_key = "lastmodifieddatetime"
