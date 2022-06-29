@@ -5,8 +5,9 @@ from urllib.parse import parse_qsl, urlparse
 
 import backoff
 import requests
+from singer_sdk import Stream
 from singer_sdk.streams import RESTStream
-
+import logging
 from tap_suiteql.auth import suiteqlAuthenticator
 
 
@@ -19,6 +20,13 @@ class suiteqlStream(RESTStream):
         super().__init__(tap=tap, schema=schema)
 
     rest_method = "POST"
+
+    @property
+    def is_sorted(self) -> bool:
+        if self.replication_key:
+            return True
+        else:
+            return False
 
     @property
     def url_base(self) -> str:
@@ -135,8 +143,22 @@ class suiteqlStream(RESTStream):
 
         By default, no payload will be sent (return None).
         """
+        start_date = self.config.get("start_date")
+        bookmark_date = self.get_starting_timestamp(context)
+        current_body = self.body_query
+        
+        if bookmark_date:
+            start_date = bookmark_date.strftime("%Y-%m-%dT%H:%M:%S")
 
-        return {"q": self.body_query}
+        if self.replication_key:
+            replication_key_param = f":{self.replication_key}"
+            current_body = self.body_query.replace(
+                replication_key_param, f"'{start_date}'"
+            )
+        
+        return current_body
+        
+
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """As needed, append or transform raw data to match expected structure.
