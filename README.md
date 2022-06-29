@@ -113,6 +113,8 @@ We extract the following entities with its respective method
 * SubscriptionPlanStream -> dinamically
 * ChangeOrderLine -> static
 * CustomerPayment -> static
+* CustomlistGpyCompanysize -> dinamically
+* CustomlistGpyReadjustmentindex -> dinamically
 
 ### SDK Dev Guide
 
