@@ -93,7 +93,6 @@ class SubscriptionPriceIntervalStream(suiteqlStream):
         th.Property("subscription", th.StringType),
     ).to_dict()
 
-
 class SubscriptionPlanStream(suiteqlStream):
     name = "SubscriptionPlan"
     path = "/query/v1/suiteql"
@@ -128,3 +127,13 @@ class ChangeOrderLineStream(suiteqlStream):
         th.Property("subscriptionline", th.StringType)
     ).to_dict()
 
+class CustomlistGpyCompanysizeStream(suiteqlStream):
+    name = "CustomlistGpyCompanysize"
+    path = "/query/v1/suiteql"
+    metadata_path = "/record/v1/metadata-catalog/customlist_gpy_companysize"
+    # Always sort the replication key and format the replication_key
+    body_query = """
+        select *
+        FROM customlist_gpy_companysize 
+        """
+    primary_keys = ["id"]
