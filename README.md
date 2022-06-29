@@ -114,9 +114,6 @@ We extract the following entities with its respective method
 * ChangeOrderLine -> static
 * CustomerPayment -> static
 
-
-
-
 ### SDK Dev Guide
 
 See the [dev guide](https://sdk.meltano.com/en/latest/dev_guide.html) for more instructions on how to use the SDK to
