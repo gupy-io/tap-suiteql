@@ -92,3 +92,14 @@ class SubscriptionPriceInterval(suiteqlStream):
         th.Property("status", th.StringType),
         th.Property("subscription", th.StringType),
     ).to_dict()
+
+class CustomlistGpyCompanysizeStream(suiteqlStream):
+    name = "CustomlistGpyCompanysize"
+    path = "/query/v1/suiteql"
+    metadata_path = "/record/v1/metadata-catalog/customlist_gpy_companysize"
+    # Always sort the replication key and format the replication_key
+    body_query = """
+        select *
+        FROM customlist_gpy_companysize 
+        """
+    primary_keys = ["id"]
