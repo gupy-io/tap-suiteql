@@ -14,7 +14,6 @@ class SubscriptionStream(suiteqlStream):
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
         FROM subscription
         WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
-        order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
     replication_key = "lastmodifieddatetime"
@@ -30,7 +29,6 @@ class CustomerStream(suiteqlStream):
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
         FROM customer
         WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
-        order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
     replication_key = "lastmodifieddatetime"
@@ -45,7 +43,6 @@ class InvoiceStream(suiteqlStream):
         select *
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
         FROM transaction where type = 'CustInvc' and lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
-        order by lastmodifieddate ASC
         """
     primary_keys = ["id"]
     replication_key = "lastmodifieddatetime"
@@ -60,8 +57,7 @@ class SubscriptionLineStream(suiteqlStream):
         select *
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime 
         FROM subscriptionline
-        WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
-        order by lastmodifieddate ASC
+        WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')        
         """
     primary_keys = ["id"]
     replication_key = "lastmodifieddatetime"
@@ -106,7 +102,7 @@ class SubscriptionPlanStream(suiteqlStream):
         ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
         FROM subscriptionplan
         WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
-        order by lastmodifieddate ASC
+        
         """
     primary_keys = ["id"]
     replication_key = "lastmodifieddatetime"

@@ -20,13 +20,6 @@ class suiteqlStream(RESTStream):
     rest_method = "POST"
 
     @property
-    def is_sorted(self) -> bool:
-        if self.replication_key:
-            return True
-        else:
-            return False
-
-    @property
     def url_base(self) -> str:
         return self.config["base_url"]
 
