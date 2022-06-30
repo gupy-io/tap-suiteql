@@ -5,9 +5,7 @@ from urllib.parse import parse_qsl, urlparse
 
 import backoff
 import requests
-from singer_sdk import Stream
 from singer_sdk.streams import RESTStream
-import logging
 from tap_suiteql.auth import suiteqlAuthenticator
 
 
@@ -156,7 +154,7 @@ class suiteqlStream(RESTStream):
                 replication_key_param, f"'{start_date}'"
             )
         
-        return current_body
+        return {"q": current_body}
         
 
 
