@@ -1,5 +1,6 @@
 """REST client handling, including suiteqlStream base class."""
 
+import re
 from typing import Any, Dict, Optional, cast
 from urllib.parse import parse_qsl, urlparse
 
@@ -7,7 +8,6 @@ import backoff
 import requests
 from singer_sdk.streams import RESTStream
 from tap_suiteql.auth import suiteqlAuthenticator
-
 
 class suiteqlStream(RESTStream):
     """suiteql stream class."""
@@ -18,6 +18,7 @@ class suiteqlStream(RESTStream):
         super().__init__(tap=tap, schema=schema)
 
     rest_method = "POST"
+    stream_type = ""
 
     @property
     def url_base(self) -> str:
@@ -76,6 +77,7 @@ class suiteqlStream(RESTStream):
                 ),
             ),
         )
+        
         return request
 
     def _get_metadata_url(self):
@@ -136,17 +138,17 @@ class suiteqlStream(RESTStream):
         """
         start_date = self.config.get("start_date")
         bookmark_date = self.get_starting_timestamp(context)
-        current_body = self.body_query
+        current_body = QueryBuilder(self).query()
         
         if bookmark_date:
             start_date = bookmark_date.strftime("%Y-%m-%dT%H:%M:%S")
 
         if self.replication_key:
             replication_key_param = f":{self.replication_key}"
-            current_body = self.body_query.replace(
+            current_body = current_body.replace(
                 replication_key_param, f"'{start_date}'"
             )
-        
+
         return {"q": current_body}
         
 
@@ -161,3 +163,43 @@ class suiteqlStream(RESTStream):
         """
 
         return row
+
+class QueryBuilder:
+    def __init__(self, stream: suiteqlStream):
+        self.stream: suiteqlStream = stream
+        
+    def _query_builder(
+        self, schema: dict, replication_key: str, entity_name: str, stream_type: str
+    ) -> str:
+        select_statement = "select "        
+        from_statement = f"from {entity_name}"
+        where_statement = "where "
+        column_select = []
+        where_clauses = ["1=1"]
+        for attribute_name, properties in schema["properties"].items():
+            if properties.get("format") == "date-time":
+                column_select.append(
+                    f"""TO_CHAR({attribute_name}, 'YYYY-MM-DD\"T\"HH24:MI:SS') {attribute_name}"""
+                )
+            else:
+                column_select.append(attribute_name)
+        if replication_key:
+            where_clauses.append(
+                f"{replication_key} >= TO_DATE(:{replication_key}, 'YYYY-MM-DD\"T\"HH24:MI:SS')"
+            )
+        
+        if stream_type:
+            from_statement = f"from transaction"
+            where_clauses.append(
+                f"type = '{stream_type}'"
+            )
+
+        select_statement += ",".join(column_select)
+        where_statement += " and ".join(where_clauses)
+        query = f"{select_statement} {from_statement} {where_statement}".strip()
+        return query
+
+    def query(self):
+        return self._query_builder(
+            self.stream.schema, self.stream.replication_key, self.stream.name, self.stream.stream_type
+        )
