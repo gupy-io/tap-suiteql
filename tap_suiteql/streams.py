@@ -9,14 +9,9 @@ class SubscriptionStream(suiteqlStream):
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/subscription"
     # Always sort the replication key and format the replication_key
-    body_query = """
-        select *
-        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
-        FROM subscription
-        WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
-        """
+    
     primary_keys = ["id"]
-    replication_key = "lastmodifieddatetime"
+    replication_key = "lastmodifieddate"
 
 
 class CustomerStream(suiteqlStream):
