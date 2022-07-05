@@ -8,7 +8,6 @@ class SubscriptionStream(suiteqlStream):
     name = "Subscription"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/subscription"
-    # Always sort the replication key and format the replication_key
     
     primary_keys = ["id"]
     replication_key = "lastmodifieddate"
@@ -18,59 +17,37 @@ class CustomerStream(suiteqlStream):
     name = "Customer"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/customer"
-    # Always sort the replication key and format the replication_key
-    body_query = """
-        select *
-        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
-        FROM customer
-        WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
-        """
+    
     primary_keys = ["id"]
-    replication_key = "lastmodifieddatetime"
+    replication_key = "lastmodifieddate"
 
 
 class InvoiceStream(suiteqlStream):
     name = "Invoice"
     path = "/query/v1/suiteql"
-    metadata_path = "/record/v1/metadata-catalog/invoice"
-    # Always sort the replication key and format the replication_key
-    body_query = """
-        select *
-        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
-        FROM transaction where type = 'CustInvc' and lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
-        """
+    metadata_path = "/record/v1/metadata-catalog/invoice"    
+    stream_type = "CustInvc" # When stream_type from transaction you should declare stream_type
     primary_keys = ["id"]
-    replication_key = "lastmodifieddatetime"
+    replication_key = "lastmodifieddate"
 
 
 class SubscriptionLineStream(suiteqlStream):
     name = "SubscriptionLine"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/subscriptionline"
-    # Always sort the replication key and format the replication_key
-    body_query = """
-        select *
-        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime 
-        FROM subscriptionline
-        WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')        
-        """
     primary_keys = ["id"]
-    replication_key = "lastmodifieddatetime"
+    replication_key = "lastmodifieddate"
 
 
 class SubscriptionPriceIntervalStream(suiteqlStream):
     name = "SubscriptionPriceInterval"
     path = "/query/v1/suiteql"
-    # Always sort the replication key and format the replication_key
-    body_query = """
-        select *
-        FROM Subscriptionpriceinterval 
-        """
+    
     primary_keys = ["id"]
     schema = th.PropertiesList(
         th.Property("catalogtype", th.StringType),
         th.Property("chargetype", th.StringType),
-        th.Property("enddate", th.StringType),
+        th.Property("enddate", th.DateTimeType),
         th.Property("frequency", th.StringType),
         th.Property("id", th.StringType),
         th.Property("item", th.StringType),
@@ -81,7 +58,7 @@ class SubscriptionPriceIntervalStream(suiteqlStream):
         th.Property("quantity", th.StringType),
         th.Property("recurringamount", th.StringType),
         th.Property("repeatevery", th.StringType),
-        th.Property("startdate", th.StringType),
+        th.Property("startdate", th.DateTimeType),
         th.Property("startoffsetvalue", th.StringType),
         th.Property("status", th.StringType),
         th.Property("subscription", th.StringType),
@@ -91,24 +68,13 @@ class SubscriptionPlanStream(suiteqlStream):
     name = "SubscriptionPlan"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/subscriptionplan"
-    # Always sort the replication key and format the replication_key
-    body_query = """
-        select *
-        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
-        FROM subscriptionplan
-        WHERE lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
-        
-        """
     primary_keys = ["id"]
-    replication_key = "lastmodifieddatetime"
+    replication_key = "lastmodifieddate"
 
 class ChangeOrderLineStream(suiteqlStream):
     name = "ChangeOrderLine"
     path = "/query/v1/suiteql"
-    body_query = """
-        select *
-        FROM changeorderline 
-        """
+    
     schema = th.PropertiesList(
         th.Property("discount", th.StringType),
         th.Property("item", th.StringType),
@@ -125,20 +91,17 @@ class ChangeOrderLineStream(suiteqlStream):
 class CustomerPaymentStream(suiteqlStream):
     name = "CustomerPayment"
     path = "/query/v1/suiteql"
-    body_query = """
-        select *
-        ,TO_CHAR(lastmodifieddate, 'YYYY-MM-DD\"T\"HH24:MI:SSTZH:TZM') as lastmodifieddatetime
-        FROM transaction where type = 'CustPymt' and lastmodifieddate >= TO_DATE(:lastmodifieddatetime, 'YYYY-MM-DD\"T\"HH24:MI:SS')
-        """
+
+    stream_type = "CustPymt"
     primary_keys = ["id"]
-    replication_key = "lastmodifieddatetime"
+    replication_key = "lastmodifieddate"
     schema = th.PropertiesList(
         th.Property("abbrevtype",th.StringType),
         th.Property("balsegstatus",th.StringType),
         th.Property("billingstatus",th.StringType),
-        th.Property("closedate",th.StringType),
+        th.Property("closedate",th.DateTimeType),
         th.Property("createdby",th.StringType),
-        th.Property("createddate",th.StringType),
+        th.Property("createddate",th.DateTimeType),
         th.Property("currency",th.StringType),
         th.Property("daysopen",th.StringType),
         th.Property("entity",th.StringType),
@@ -151,7 +114,7 @@ class CustomerPaymentStream(suiteqlStream):
         th.Property("isfinchrg",th.StringType),
         th.Property("isreversal",th.StringType),
         th.Property("lastmodifiedby",th.StringType),
-        th.Property("lastmodifieddate",th.StringType),
+        th.Property("lastmodifieddate",th.DateTimeType),
         th.Property("legacytax",th.StringType),
         th.Property("number",th.StringType),
         th.Property("onetime",th.StringType),
@@ -169,7 +132,7 @@ class CustomerPaymentStream(suiteqlStream):
         th.Property("taxdetailsoverride",th.StringType),
         th.Property("taxpointdateoverride",th.StringType),
         th.Property("taxregoverride",th.StringType),
-        th.Property("trandate",th.StringType),
+        th.Property("trandate",th.DateTimeType),
         th.Property("trandisplayname",th.StringType),
         th.Property("tranid",th.StringType),
         th.Property("transactionnumber",th.StringType),
@@ -182,23 +145,13 @@ class CustomerPaymentStream(suiteqlStream):
     ).to_dict()
 
 class CustomlistGpyCompanysizeStream(suiteqlStream):
-    name = "CustomlistGpyCompanysize"
+    name = "customlist_gpy_companysize"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/customlist_gpy_companysize"
-    # Always sort the replication key and format the replication_key
-    body_query = """
-        select *
-        FROM customlist_gpy_companysize 
-        """
     primary_keys = ["id"]
 
 class CustomlistGpyReadjustmentindexStream(suiteqlStream):
-    name = "CustomlistGpyReadjustmentindex"
+    name = "customlist_gpy_readjustmentindex"
     path = "/query/v1/suiteql"
-    metadata_path = "/record/v1/metadata-catalog/customlist_gpy_readjustmentindex"
-    # Always sort the replication key and format the replication_key
-    body_query = """
-        select *
-        FROM customlist_gpy_readjustmentindex 
-        """
+    metadata_path = "/record/v1/metadata-catalog/customlist_gpy_readjustmentindex"   
     primary_keys = ["id"]

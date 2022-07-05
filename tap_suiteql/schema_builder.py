@@ -11,6 +11,11 @@ class SchemaBuilder:
         property_list = th.PropertiesList()
         if self.stream.replication_key:
             attributes.update({self.stream.replication_key: "date"})
+        
+        
+        if self.stream.primary_keys:
+            for key in self.stream.primary_keys:
+                attributes.update({key: None})
 
         for attribute_name, attribute_type in attributes.items():
             if attribute_name != "links":

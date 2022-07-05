@@ -1,5 +1,6 @@
 """REST client handling, including suiteqlStream base class."""
 
+import logging
 import re
 from typing import Any, Dict, Optional, cast
 from urllib.parse import parse_qsl, urlparse
@@ -148,7 +149,7 @@ class suiteqlStream(RESTStream):
             current_body = current_body.replace(
                 replication_key_param, f"'{start_date}'"
             )
-
+        logging.warning(f"current_body: {current_body}")
         return {"q": current_body}
         
 
