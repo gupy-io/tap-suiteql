@@ -20,11 +20,15 @@ class SchemaBuilder:
         return attributes
 
     def _get_attributes_dict(self) -> dict:
-        record = self.stream.get_metadata()
+        records = self.stream.get_metadata()
         attributes = [
-            r for r in record["x-ns-filterable"] if r not in self.stream.skip_attributes
+            record
+            for record in records["x-ns-filterable"]
+            if record not in self.stream.skip_attributes
         ]
-        attributes_dict = {a: record["properties"][a].get("format") for a in attributes}
+        attributes_dict = {
+            a: records["properties"][a].get("format") for a in attributes
+        }
         return attributes_dict
 
     def _schema_builder(self, attributes: dict) -> dict:
