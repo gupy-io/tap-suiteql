@@ -3,7 +3,8 @@
 from typing import List
 
 from singer_sdk import Stream, Tap
-from singer_sdk import typing as th  # JSON schema typing helpers
+from singer_sdk import typing as th
+from tap_suiteql.query_builder import QueryBuilder  # JSON schema typing helpers
 
 from tap_suiteql.schema_builder import SchemaBuilder
 from tap_suiteql.streams import (
@@ -84,7 +85,8 @@ class Tapsuiteql(Tap):
 
         for stream_class in STREAM_TYPES:
             schema = SchemaBuilder(stream_class(tap=self)).schema()
-
-            stream_classes.append(stream_class(tap=self, schema=schema))
-
+            body_query = QueryBuilder(stream_class(tap=self, schema=schema)).query()
+            stream_classes.append(
+                stream_class(tap=self, schema=schema, body_query=body_query)
+            )
         return stream_classes
