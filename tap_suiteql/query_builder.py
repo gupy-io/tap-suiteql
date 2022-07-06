@@ -3,12 +3,11 @@ from tap_suiteql.client import suiteqlStream
 
 
 class QueryBuilder:
-    SELECT_STATEMENT = "select "
-    WHERE_STATEMENT = "where "
-    WHERE_CLAUSES = ["1=1"]
-
     def __init__(self, stream: suiteqlStream):
         self.stream: suiteqlStream = stream
+        self.SELECT_STATEMENT = "select "
+        self.WHERE_STATEMENT = "where "
+        self.WHERE_CLAUSES = ["1=1"]
 
     def _get_column_select(self, schema: dict) -> List:
         column_select = []
