@@ -127,3 +127,46 @@ def test_skip_attributes():
     ).to_dict()
     schema = SchemaBuilder(DummyStreamWithSkipAttribute()).schema()
     assert expected == schema
+
+
+def test_get_attributes_dict():
+    expected = {
+        "custbody_o2s_transaction_t_nr_seq_ad": None,
+        "custbody_o2s_transaction_d_contingenci": None,
+        "custbody_o2s_transaction_c_outra_reten": "date",
+        "custbody_o2s_to_subsidiary_t_logradour": None,
+        "renewalNumber": "int64",
+    }
+    attributes_dict = SchemaBuilder(DummyStream())._get_attributes_dict()
+    assert attributes_dict == expected
+
+
+def test_add_primary_keys_to_attributes_map():
+    expected = {
+        "custbody_o2s_transaction_t_nr_seq_ad": None,
+        "custbody_o2s_transaction_d_contingenci": None,
+        "custbody_o2s_transaction_c_outra_reten": "date",
+        "custbody_o2s_to_subsidiary_t_logradour": None,
+        "renewalNumber": None,
+    }
+    attributes_dict = SchemaBuilder(DummyStream())._get_attributes_dict()
+    incremented_attributes_dict = SchemaBuilder(
+        DummyStream()
+    )._add_primary_keys_to_attributes_map(attributes_dict)
+    assert expected == incremented_attributes_dict
+
+
+def test_add_replication_key_to_attributes_map():
+    expected = {
+        "custbody_o2s_transaction_t_nr_seq_ad": None,
+        "custbody_o2s_transaction_d_contingenci": None,
+        "custbody_o2s_transaction_c_outra_reten": "date",
+        "custbody_o2s_to_subsidiary_t_logradour": None,
+        "renewalNumber": "int64",
+        "somekey": "date",
+    }
+    attributes_dict = SchemaBuilder(DummyStream())._get_attributes_dict()
+    incremented_attributes_dict = SchemaBuilder(
+        DummyStream()
+    )._add_replication_key_to_attributes_map(attributes_dict)
+    assert expected == incremented_attributes_dict
