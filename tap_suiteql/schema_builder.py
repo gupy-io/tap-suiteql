@@ -11,8 +11,7 @@ class SchemaBuilder:
         property_list = th.PropertiesList()
         if self.stream.replication_key:
             attributes.update({self.stream.replication_key: "date"})
-        
-        
+
         if self.stream.primary_keys:
             for key in self.stream.primary_keys:
                 attributes.update({key: None})
@@ -33,7 +32,11 @@ class SchemaBuilder:
     def schema(self):
         if self.stream.schema["properties"] == {}:
             record = self.stream.get_metadata()
-            attributes = record["x-ns-filterable"]
+            attributes = [
+                r
+                for r in record["x-ns-filterable"]
+                if r not in self.stream.skip_attributes
+            ]
             attributes_dict = {
                 a: record["properties"][a].get("format") for a in attributes
             }

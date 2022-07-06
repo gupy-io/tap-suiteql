@@ -10,6 +10,7 @@ import requests
 from singer_sdk.streams import RESTStream
 from tap_suiteql.auth import suiteqlAuthenticator
 
+
 class suiteqlStream(RESTStream):
     """suiteql stream class."""
 
@@ -31,6 +32,7 @@ class suiteqlStream(RESTStream):
 
     body_query = ""
     metadata_path = ""
+    skip_attributes = []
 
     @property
     def authenticator(self) -> suiteqlAuthenticator:
@@ -78,7 +80,7 @@ class suiteqlStream(RESTStream):
                 ),
             ),
         )
-        
+
         return request
 
     def _get_metadata_url(self):
@@ -140,7 +142,7 @@ class suiteqlStream(RESTStream):
         start_date = self.config.get("start_date")
         bookmark_date = self.get_starting_timestamp(context)
         current_body = QueryBuilder(self).query()
-        
+
         if bookmark_date:
             start_date = bookmark_date.strftime("%Y-%m-%dT%H:%M:%S")
 
@@ -151,8 +153,6 @@ class suiteqlStream(RESTStream):
             )
         logging.warning(f"current_body: {current_body}")
         return {"q": current_body}
-        
-
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """As needed, append or transform raw data to match expected structure.
@@ -165,14 +165,15 @@ class suiteqlStream(RESTStream):
 
         return row
 
+
 class QueryBuilder:
     def __init__(self, stream: suiteqlStream):
         self.stream: suiteqlStream = stream
-        
+
     def _query_builder(
         self, schema: dict, replication_key: str, entity_name: str, stream_type: str
     ) -> str:
-        select_statement = "select "        
+        select_statement = "select "
         from_statement = f"from {entity_name}"
         where_statement = "where "
         column_select = []
@@ -188,12 +189,10 @@ class QueryBuilder:
             where_clauses.append(
                 f"{replication_key} >= TO_DATE(:{replication_key}, 'YYYY-MM-DD\"T\"HH24:MI:SS')"
             )
-        
+
         if stream_type:
             from_statement = f"from transaction"
-            where_clauses.append(
-                f"type = '{stream_type}'"
-            )
+            where_clauses.append(f"type = '{stream_type}'")
 
         select_statement += ",".join(column_select)
         where_statement += " and ".join(where_clauses)
@@ -202,5 +201,8 @@ class QueryBuilder:
 
     def query(self):
         return self._query_builder(
-            self.stream.schema, self.stream.replication_key, self.stream.name, self.stream.stream_type
+            self.stream.schema,
+            self.stream.replication_key,
+            self.stream.name,
+            self.stream.stream_type,
         )
