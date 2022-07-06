@@ -17,15 +17,12 @@ class SchemaBuilder:
                 attributes.update({key: None})
 
         for attribute_name, attribute_type in attributes.items():
-            if attribute_name != "links":
-                if attribute_type == "date":
-                    property_list.append(
-                        th.Property(attribute_name.lower(), th.DateTimeType)
-                    )
-                else:
-                    property_list.append(
-                        th.Property(attribute_name.lower(), th.StringType)
-                    )
+            if attribute_type == "date":
+                property_list.append(
+                    th.Property(attribute_name.lower(), th.DateTimeType)
+                )
+            else:
+                property_list.append(th.Property(attribute_name.lower(), th.StringType))
 
         return property_list.to_dict()
 

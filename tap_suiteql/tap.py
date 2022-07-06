@@ -20,16 +20,16 @@ from tap_suiteql.streams import (
 )
 
 STREAM_TYPES = [
-    # SubscriptionStream,
-    # CustomerStream,
-    # InvoiceStream,
-    # SubscriptionLineStream,
-    # SubscriptionPriceIntervalStream,
+    SubscriptionStream,
+    CustomerStream,
+    InvoiceStream,
+    SubscriptionLineStream,
+    SubscriptionPriceIntervalStream,
     SubscriptionPlanStream,
-    # ChangeOrderLineStream,
-    # CustomerPaymentStream,
-    # CustomlistGpyCompanysizeStream,
-    # CustomlistGpyReadjustmentindexStream
+    ChangeOrderLineStream,
+    CustomerPaymentStream,
+    CustomlistGpyCompanysizeStream,
+    CustomlistGpyReadjustmentindexStream,
 ]
 
 

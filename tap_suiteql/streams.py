@@ -8,8 +8,8 @@ class SubscriptionStream(suiteqlStream):
     name = "Subscription"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/subscription"
-
     primary_keys = ["id"]
+    skip_attributes = ["links"]
     replication_key = "lastmodifieddate"
 
 
@@ -17,8 +17,8 @@ class CustomerStream(suiteqlStream):
     name = "Customer"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/customer"
-
     primary_keys = ["id"]
+    skip_attributes = ["links"]
     replication_key = "lastmodifieddate"
 
 
@@ -30,6 +30,7 @@ class InvoiceStream(suiteqlStream):
         "CustInvc"  # When stream_type from transaction you should declare stream_type
     )
     primary_keys = ["id"]
+    skip_attributes = ["links"]
     replication_key = "lastmodifieddate"
 
 
@@ -38,13 +39,13 @@ class SubscriptionLineStream(suiteqlStream):
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/subscriptionline"
     primary_keys = ["id"]
+    skip_attributes = ["links"]
     replication_key = "lastmodifieddate"
 
 
 class SubscriptionPriceIntervalStream(suiteqlStream):
     name = "SubscriptionPriceInterval"
     path = "/query/v1/suiteql"
-
     primary_keys = ["id"]
     schema = th.PropertiesList(
         th.Property("catalogtype", th.StringType),
@@ -73,13 +74,15 @@ class SubscriptionPlanStream(suiteqlStream):
     metadata_path = "/record/v1/metadata-catalog/subscriptionplan"
     primary_keys = ["id"]
     replication_key = "lastmodifieddate"
-    skip_attributes = ["incomeAccount"]  # should match metadata endpoint attribute name
+    skip_attributes = [
+        "links",
+        "incomeAccount",
+    ]  # should match metadata endpoint attribute name
 
 
 class ChangeOrderLineStream(suiteqlStream):
     name = "ChangeOrderLine"
     path = "/query/v1/suiteql"
-
     schema = th.PropertiesList(
         th.Property("discount", th.StringType),
         th.Property("item", th.StringType),
@@ -156,6 +159,7 @@ class CustomlistGpyCompanysizeStream(suiteqlStream):
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/customlist_gpy_companysize"
     primary_keys = ["id"]
+    skip_attributes = ["links"]
 
 
 class CustomlistGpyReadjustmentindexStream(suiteqlStream):
@@ -163,3 +167,4 @@ class CustomlistGpyReadjustmentindexStream(suiteqlStream):
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/customlist_gpy_readjustmentindex"
     primary_keys = ["id"]
+    skip_attributes = ["links"]
