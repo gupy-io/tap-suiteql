@@ -5,6 +5,7 @@ from tap_suiteql.query_builder import QueryBuilder
 
 class DummyStream:
     name = "dummy"
+    entity_name = ""
     replication_key = "replication_key_col"
     skip_attributes = []
     stream_type = None
@@ -21,6 +22,7 @@ class DummyStream:
 
 class DummyStreamWithoutReplicationKey:
     name = "dummy_without_replication_key"
+    entity_name = ""
     skip_attributes = []
     replication_key = None
     stream_type = None
@@ -35,10 +37,11 @@ class DummyStreamWithoutReplicationKey:
 
 
 class DummyStreamTransaction:
-    skip_attributes = []
-    name = "dummy_transaction"
+    name = "dummy"
+    entity_name = "dummy_transaction"
     replication_key = "replication_key_col"
     stream_type = "CustDummy"
+    skip_attributes = []
     schema = {
         "type": "object",
         "properties": {
@@ -63,6 +66,6 @@ def test_sql_builder_without_replication_key():
 
 
 def test_sql_builder_from_transaction():
-    expected = """select col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col,TO_CHAR(replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') replication_key_col from transaction where 1=1 and replication_key_col >= TO_DATE(:replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') and type = 'CustDummy'"""
+    expected = """select col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col,TO_CHAR(replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') replication_key_col from dummy_transaction where 1=1 and replication_key_col >= TO_DATE(:replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') and type = 'CustDummy'"""
     query = QueryBuilder(DummyStreamTransaction).query()
     assert expected == query

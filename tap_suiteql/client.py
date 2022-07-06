@@ -25,6 +25,7 @@ class suiteqlStream(RESTStream):
 
     rest_method = "POST"
     stream_type = ""
+    entity_name = ""
 
     @property
     def url_base(self) -> str:

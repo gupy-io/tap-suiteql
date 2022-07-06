@@ -24,6 +24,7 @@ class CustomerStream(suiteqlStream):
 
 class InvoiceStream(suiteqlStream):
     name = "Invoice"
+    entity_name = "transaction"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/invoice"
     stream_type = (
@@ -100,7 +101,7 @@ class ChangeOrderLineStream(suiteqlStream):
 class CustomerPaymentStream(suiteqlStream):
     name = "CustomerPayment"
     path = "/query/v1/suiteql"
-
+    entity_name = "transaction"
     stream_type = "CustPymt"
     primary_keys = ["id"]
     replication_key = "lastmodifieddate"
@@ -155,7 +156,8 @@ class CustomerPaymentStream(suiteqlStream):
 
 
 class CustomlistGpyCompanysizeStream(suiteqlStream):
-    name = "customlist_gpy_companysize"
+    name = "CustomListGpyCompanySize"
+    entity_name = "customlist_gpy_companysize"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/customlist_gpy_companysize"
     primary_keys = ["id"]
@@ -163,7 +165,8 @@ class CustomlistGpyCompanysizeStream(suiteqlStream):
 
 
 class CustomlistGpyReadjustmentindexStream(suiteqlStream):
-    name = "customlist_gpy_readjustmentindex"
+    name = "CustomlistGpyReadjustmentindex"
+    entity_name = "customlist_gpy_readjustmentindex"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/customlist_gpy_readjustmentindex"
     primary_keys = ["id"]

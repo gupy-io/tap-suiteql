@@ -5,6 +5,7 @@ from tap_suiteql.client import suiteqlStream
 class QueryBuilder:
     SELECT_STATEMENT = "select "
     WHERE_STATEMENT = "where "
+    WHERE_CLAUSES = ["1=1"]
 
     def __init__(self, stream: suiteqlStream):
         self.stream: suiteqlStream = stream
@@ -20,30 +21,36 @@ class QueryBuilder:
                 column_select.append(attribute_name)
         return column_select
 
-    def _query_builder(
-        self, schema: dict, replication_key: str, entity_name: str, stream_type: str
-    ) -> str:
-        from_statement = f"from {entity_name}"
-        where_clauses = ["1=1"]
-        column_select = self._get_column_select(schema)
-        if replication_key:
+    def _build_select_statement(self, stream: suiteqlStream) -> str:
+        select_statement = self.SELECT_STATEMENT
+        column_select = self._get_column_select(stream.schema)
+        select_statement += ",".join(column_select)
+        return select_statement
+
+    def _build_from_statement(self, stream: suiteqlStream):
+        if stream.entity_name:
+            return f"from {stream.entity_name}"
+        else:
+            return f"from {stream.name}"
+
+    def _build_where_statement(self, stream: suiteqlStream):
+        where_clauses = self.WHERE_CLAUSES
+        where_statement = self.WHERE_STATEMENT
+        if stream.replication_key:
             where_clauses.append(
-                f"{replication_key} >= TO_DATE(:{replication_key}, 'YYYY-MM-DD\"T\"HH24:MI:SS')"
+                f"{stream.replication_key} >= TO_DATE(:{stream.replication_key}, 'YYYY-MM-DD\"T\"HH24:MI:SS')"
             )
-        if stream_type:
-            from_statement = f"from transaction"
-            where_clauses.append(f"type = '{stream_type}'")
-        self.SELECT_STATEMENT += ",".join(column_select)
-        self.WHERE_STATEMENT += " and ".join(where_clauses)
-        query = (
-            f"{self.SELECT_STATEMENT} {from_statement} {self.WHERE_STATEMENT}".strip()
-        )
+        if stream.stream_type:
+            where_clauses.append(f"type = '{stream.stream_type}'")
+        where_statement += " and ".join(where_clauses)
+        return where_statement
+
+    def _query_builder(self, stream: suiteqlStream) -> str:
+        select_statement = self._build_select_statement(stream)
+        from_statement = self._build_from_statement(stream)
+        where_statement = self._build_where_statement(stream)
+        query = f"{select_statement} {from_statement} {where_statement}".strip()
         return query
 
     def query(self):
-        return self._query_builder(
-            self.stream.schema,
-            self.stream.replication_key,
-            self.stream.name,
-            self.stream.stream_type,
-        )
+        return self._query_builder(self.stream)
