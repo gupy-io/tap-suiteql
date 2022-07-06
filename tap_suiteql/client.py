@@ -10,6 +10,9 @@ import requests
 from singer_sdk.streams import RESTStream
 from tap_suiteql.auth import suiteqlAuthenticator
 
+SELECT_STATEMENT = "select "
+WHERE_STATEMENT = "where "
+
 
 class suiteqlStream(RESTStream):
     """suiteql stream class."""
@@ -173,9 +176,7 @@ class QueryBuilder:
     def _query_builder(
         self, schema: dict, replication_key: str, entity_name: str, stream_type: str
     ) -> str:
-        select_statement = "select "
         from_statement = f"from {entity_name}"
-        where_statement = "where "
         column_select = []
         where_clauses = ["1=1"]
         for attribute_name, properties in schema["properties"].items():
@@ -194,9 +195,9 @@ class QueryBuilder:
             from_statement = f"from transaction"
             where_clauses.append(f"type = '{stream_type}'")
 
-        select_statement += ",".join(column_select)
-        where_statement += " and ".join(where_clauses)
-        query = f"{select_statement} {from_statement} {where_statement}".strip()
+        SELECT_STATEMENT += ",".join(column_select)
+        WHERE_STATEMENT += " and ".join(where_clauses)
+        query = f"{SELECT_STATEMENT} {from_statement} {WHERE_STATEMENT}".strip()
         return query
 
     def query(self):
