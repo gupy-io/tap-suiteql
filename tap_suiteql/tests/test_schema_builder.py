@@ -7,6 +7,7 @@ class DummyStream:
     schema = {"type": "object", "properties": {}}
     replication_key = "somekey"
     primary_keys = ["renewalNumber"]
+    skip_attributes = []
 
     def get_metadata(self):
         return {
