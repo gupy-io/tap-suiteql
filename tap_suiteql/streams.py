@@ -1,7 +1,8 @@
 """Stream type classes for tap-suiteql."""
 
-from tap_suiteql.client import suiteqlStream
 from singer_sdk import typing as th
+
+from tap_suiteql.client import suiteqlStream
 
 
 class SubscriptionStream(suiteqlStream):

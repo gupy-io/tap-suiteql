@@ -1,13 +1,13 @@
 """REST client handling, including suiteqlStream base class."""
 
 import logging
-import re
-from typing import Any, Dict, Optional, cast, List
+from typing import Any, Dict, List, Optional, cast
 from urllib.parse import parse_qsl, urlparse
 
 import backoff
 import requests
 from singer_sdk.streams import RESTStream
+
 from tap_suiteql.auth import suiteqlAuthenticator
 
 
@@ -36,7 +36,7 @@ class suiteqlStream(RESTStream):
     next_page_token_jsonpath = "$.links[?(@.rel == 'next')].href"
 
     metadata_path = ""
-    skip_attributes = []
+    skip_attributes: List[str] = []
 
     @property
     def authenticator(self) -> suiteqlAuthenticator:

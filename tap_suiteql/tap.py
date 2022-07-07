@@ -4,20 +4,20 @@ from typing import List
 
 from singer_sdk import Stream, Tap
 from singer_sdk import typing as th
-from tap_suiteql.query_builder import QueryBuilder  # JSON schema typing helpers
 
+from tap_suiteql.query_builder import QueryBuilder  # JSON schema typing helpers
 from tap_suiteql.schema_builder import SchemaBuilder
 from tap_suiteql.streams import (
-    CustomerStream,
-    InvoiceStream,
-    SubscriptionLineStream,
-    SubscriptionStream,
-    SubscriptionPriceIntervalStream,
-    SubscriptionPlanStream,
     ChangeOrderLineStream,
     CustomerPaymentStream,
+    CustomerStream,
     CustomlistGpyCompanysizeStream,
     CustomlistGpyReadjustmentindexStream,
+    InvoiceStream,
+    SubscriptionLineStream,
+    SubscriptionPlanStream,
+    SubscriptionPriceIntervalStream,
+    SubscriptionStream,
 )
 
 STREAM_TYPES = [

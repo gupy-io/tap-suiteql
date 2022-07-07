@@ -1,4 +1,5 @@
 from typing import List
+
 from tap_suiteql.client import suiteqlStream
 
 
@@ -11,7 +12,7 @@ class QueryBuilder:
         for attribute_name, properties in schema["properties"].items():
             if properties.get("format") == "date-time":
                 column_select.append(
-                    f"""TO_CHAR({attribute_name}, 'YYYY-MM-DD\"T\"HH24:MI:SS') {attribute_name}"""
+                    f"""TO_CHAR({attribute_name}, 'YYYY-MM-DD\"T\"HH24:MI:SS') {attribute_name}"""  # noqa
                 )
             else:
                 column_select.append(attribute_name)
@@ -34,7 +35,7 @@ class QueryBuilder:
         where_statement = "where "
         if stream.replication_key:
             where_clauses.append(
-                f"{stream.replication_key} >= TO_DATE(:{stream.replication_key}, 'YYYY-MM-DD\"T\"HH24:MI:SS')"
+                f"{stream.replication_key} >= TO_DATE(:{stream.replication_key}, 'YYYY-MM-DD\"T\"HH24:MI:SS')"  # noqa
             )
         if stream.stream_type:
             where_clauses.append(f"type = '{stream.stream_type}'")
