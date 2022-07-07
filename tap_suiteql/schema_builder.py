@@ -1,4 +1,3 @@
-from attr import attributes
 from singer_sdk import typing as th
 
 from tap_suiteql.client import suiteqlStream
