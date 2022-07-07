@@ -155,7 +155,7 @@ class suiteqlStream(RESTStream):
             current_body = current_body.replace(
                 replication_key_param, f"'{start_date}'"
             )
-        logging.warning(f"current_body: {current_body}")
+        logging.debug(f"current_body: {current_body}")
         return {"q": current_body}
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
