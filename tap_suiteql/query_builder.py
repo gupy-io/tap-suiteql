@@ -5,9 +5,6 @@ from tap_suiteql.client import suiteqlStream
 class QueryBuilder:
     def __init__(self, stream: suiteqlStream):
         self.stream: suiteqlStream = stream
-        self.SELECT_STATEMENT = "select "
-        self.WHERE_STATEMENT = "where "
-        self.WHERE_CLAUSES = ["1=1"]
 
     def _get_column_select(self, schema: dict) -> List:
         column_select = []
@@ -21,7 +18,7 @@ class QueryBuilder:
         return column_select
 
     def _build_select_statement(self, stream: suiteqlStream) -> str:
-        select_statement = self.SELECT_STATEMENT
+        select_statement = "select "
         column_select = self._get_column_select(stream.schema)
         select_statement += ",".join(column_select)
         return select_statement
@@ -33,8 +30,8 @@ class QueryBuilder:
             return f"from {stream.name}"
 
     def _build_where_statement(self, stream: suiteqlStream):
-        where_clauses = self.WHERE_CLAUSES
-        where_statement = self.WHERE_STATEMENT
+        where_clauses = ["1=1"]
+        where_statement = "where "
         if stream.replication_key:
             where_clauses.append(
                 f"{stream.replication_key} >= TO_DATE(:{stream.replication_key}, 'YYYY-MM-DD\"T\"HH24:MI:SS')"
