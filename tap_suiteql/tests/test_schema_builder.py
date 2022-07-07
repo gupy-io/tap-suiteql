@@ -115,6 +115,7 @@ def test_get_default_schema():
     ).to_dict()
 
     schema = SchemaBuilder(DummyStreamWithSchema()).schema()
+
     assert expected == schema, "SchemaBuilder should return the default schema"
 
 
@@ -125,5 +126,7 @@ def test_skip_attributes():
         th.Property("renewalnumber", th.StringType),
         th.Property("somekey", th.DateTimeType),
     ).to_dict()
+
     schema = SchemaBuilder(DummyStreamWithSkipAttribute()).schema()
+
     assert expected == schema

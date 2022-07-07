@@ -54,16 +54,19 @@ class DummyStreamTransaction:
 def test_sql_builder_with_replication_key():
     expected = """select col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col,TO_CHAR(replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') replication_key_col from dummy where 1=1 and replication_key_col >= TO_DATE(:replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS')"""  # noqa:E501
     query = QueryBuilder(DummyStream).query()
+
     assert expected == query
 
 
 def test_sql_builder_without_replication_key():
     expected = """select col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col from dummy_without_replication_key where 1=1"""  # noqa:E501
     query = QueryBuilder(DummyStreamWithoutReplicationKey).query()
+
     assert expected == query
 
 
 def test_sql_builder_from_transaction():
     expected = """select col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col,TO_CHAR(replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') replication_key_col from dummy_transaction where 1=1 and replication_key_col >= TO_DATE(:replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') and type = 'CustDummy'"""  # noqa:E501
     query = QueryBuilder(DummyStreamTransaction).query()
+
     assert expected == query
