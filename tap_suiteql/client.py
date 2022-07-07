@@ -1,11 +1,13 @@
 """REST client handling, including suiteqlStream base class."""
 
-from typing import Any, Dict, Optional, cast
+import logging
+from typing import Any, Dict, List, Optional, cast
 from urllib.parse import parse_qsl, urlparse
 
 import backoff
 import requests
 from singer_sdk.streams import RESTStream
+
 from tap_suiteql.auth import suiteqlAuthenticator
 
 
@@ -13,11 +15,17 @@ class suiteqlStream(RESTStream):
     """suiteql stream class."""
 
     def __init__(
-        self, tap: Any, schema: dict = {"type": "object", "properties": {}}
+        self,
+        tap: Any,
+        schema: dict = {"type": "object", "properties": {}},
+        body_query: str = "",
     ) -> None:
         super().__init__(tap=tap, schema=schema)
+        self.body_query = body_query
 
     rest_method = "POST"
+    stream_type = ""
+    entity_name = ""
 
     @property
     def url_base(self) -> str:
@@ -27,8 +35,8 @@ class suiteqlStream(RESTStream):
 
     next_page_token_jsonpath = "$.links[?(@.rel == 'next')].href"
 
-    body_query = ""
     metadata_path = ""
+    skip_attributes: List[str] = []
 
     @property
     def authenticator(self) -> suiteqlAuthenticator:
@@ -76,6 +84,7 @@ class suiteqlStream(RESTStream):
                 ),
             ),
         )
+
         return request
 
     def _get_metadata_url(self):
@@ -137,19 +146,17 @@ class suiteqlStream(RESTStream):
         start_date = self.config.get("start_date")
         bookmark_date = self.get_starting_timestamp(context)
         current_body = self.body_query
-        
+
         if bookmark_date:
             start_date = bookmark_date.strftime("%Y-%m-%dT%H:%M:%S")
 
         if self.replication_key:
             replication_key_param = f":{self.replication_key}"
-            current_body = self.body_query.replace(
+            current_body = current_body.replace(
                 replication_key_param, f"'{start_date}'"
             )
-        
+        logging.debug(f"current_body: {current_body}")
         return {"q": current_body}
-        
-
 
     def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
         """As needed, append or transform raw data to match expected structure.
