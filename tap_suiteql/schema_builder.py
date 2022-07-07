@@ -27,7 +27,8 @@ class SchemaBuilder:
             if record not in self.stream.skip_attributes
         ]
         attributes_dict = {
-            a: records["properties"][a].get("format") for a in attributes
+            attribute: records["properties"][attribute].get("format")
+            for attribute in attributes
         }
         return attributes_dict
 
