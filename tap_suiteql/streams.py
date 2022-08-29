@@ -172,3 +172,31 @@ class CustomlistGpyReadjustmentindexStream(suiteqlStream):
     metadata_path = "/record/v1/metadata-catalog/customlist_gpy_readjustmentindex"
     primary_keys = ["id"]
     skip_attributes = ["links"]
+
+
+class SubscriptionChangeOrderStream(suiteqlStream):
+    name = "SubscriptionChangeOrder"
+    entity_name = "subscriptionchangeorder"
+    path = "/query/v1/suiteql"
+    primary_keys = ["id"]
+    replication_key = "lastmodifieddate"
+    schema = th.PropertiesList(
+        th.Property("action", th.StringType),
+        th.Property("approvalstatus", th.StringType),
+        th.Property("billingaccount", th.StringType),
+        th.Property("createdby", th.StringType),
+        th.Property("customer", th.StringType),
+        th.Property("custrecord_gpy_sco_effectivedate_dt", th.DateTimeType),
+        th.Property("datecreated", th.DateTimeType),
+        th.Property("effectivedate", th.DateTimeType),
+        th.Property("id", th.StringType),
+        th.Property("idnumber", th.StringType),
+        th.Property("lastmodifieddate", th.DateTimeType),
+        th.Property("modificationtype", th.StringType),
+        th.Property("requestoffcycleinvoice", th.StringType),
+        th.Property("requestor", th.StringType),
+        th.Property("subscription", th.StringType),
+        th.Property("subscriptionchangeorderstatus", th.StringType),
+        th.Property("subscriptionplan", th.StringType),
+        th.Property("subsidiary", th.StringType),
+    )

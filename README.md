@@ -115,6 +115,7 @@ We extract the following entities with its respective method
 * CustomerPayment -> static
 * CustomlistGpyCompanysize -> dinamically
 * CustomlistGpyReadjustmentindex -> dinamically
+* SubscriptionChangeOrder -> static
 
 ### SDK Dev Guide
 
