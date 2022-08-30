@@ -199,4 +199,4 @@ class SubscriptionChangeOrderStream(suiteqlStream):
         th.Property("subscriptionchangeorderstatus", th.StringType),
         th.Property("subscriptionplan", th.StringType),
         th.Property("subsidiary", th.StringType),
-    )
+    ).to_dict()
