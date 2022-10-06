@@ -1,5 +1,6 @@
 """suiteql tap class."""
-
+import json
+import os
 from typing import List
 
 from singer_sdk import Stream, Tap
@@ -14,26 +15,26 @@ from tap_suiteql.streams import (
     CustomlistGpyCompanysizeStream,
     CustomlistGpyReadjustmentindexStream,
     InvoiceStream,
+    SubscriptionChangeOrderStream,
     SubscriptionLineStream,
     SubscriptionPlanStream,
     SubscriptionPriceIntervalStream,
     SubscriptionStream,
-    SubscriptionChangeOrderStream,
 )
 
-STREAM_TYPES = [
-    SubscriptionStream,
-    CustomerStream,
-    InvoiceStream,
-    SubscriptionLineStream,
-    SubscriptionPriceIntervalStream,
-    SubscriptionPlanStream,
-    ChangeOrderLineStream,
-    CustomerPaymentStream,
-    CustomlistGpyCompanysizeStream,
-    CustomlistGpyReadjustmentindexStream,
-    SubscriptionChangeOrderStream,
-]
+STREAM_TYPES = {
+    "Subscription": SubscriptionStream,
+    "Customer": CustomerStream,
+    "Invoice": InvoiceStream,
+    "SubscriptionLine": SubscriptionLineStream,
+    "SubscriptionPriceInterval": SubscriptionPriceIntervalStream,
+    "SubscriptionPlan": SubscriptionPlanStream,
+    "ChangeOrderLine": ChangeOrderLineStream,
+    "CustomerPayment": CustomerPaymentStream,
+    "CustomlistGpyCompanysize": CustomlistGpyCompanysizeStream,
+    "CustomlistGpyReadjustmentindex": CustomlistGpyReadjustmentindexStream,
+    "SubscriptionChangeOrder": SubscriptionChangeOrderStream,
+}
 
 
 class Tapsuiteql(Tap):
@@ -80,12 +81,26 @@ class Tapsuiteql(Tap):
         ),
     ).to_dict()
 
+    def get_stream_types(self) -> List[Stream]:
+
+        stream_types = []
+        select_statement = json.loads(os.environ.get("TAP_SUITEQL__SELECT", '["*.*"]'))
+
+        if select_statement == ["*.*"]:
+            stream_types = STREAM_TYPES.values()
+        else:
+            stream_types = [
+                STREAM_TYPES.get(s.replace(".*", "")) for s in select_statement
+            ]
+
+        return stream_types
+
     def discover_streams(self) -> List[Stream]:
         """Return a list of discovered streams."""
 
         stream_classes: List[Stream] = []
 
-        for stream_class in STREAM_TYPES:
+        for stream_class in self.get_stream_types():
             schema = SchemaBuilder(stream_class(tap=self)).schema()
             body_query = QueryBuilder(stream_class(tap=self, schema=schema)).query()
 
