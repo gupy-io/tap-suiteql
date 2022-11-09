@@ -20,6 +20,7 @@ from tap_suiteql.streams import (
     SubscriptionPlanStream,
     SubscriptionPriceIntervalStream,
     SubscriptionStream,
+    ItemStream,
 )
 
 STREAM_TYPES = {
@@ -34,6 +35,7 @@ STREAM_TYPES = {
     "CustomlistGpyCompanysize": CustomlistGpyCompanysizeStream,
     "CustomlistGpyReadjustmentindex": CustomlistGpyReadjustmentindexStream,
     "SubscriptionChangeOrder": SubscriptionChangeOrderStream,
+    "Item": ItemStream,
 }
 
 

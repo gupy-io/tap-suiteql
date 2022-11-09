@@ -200,3 +200,47 @@ class SubscriptionChangeOrderStream(suiteqlStream):
         th.Property("subscriptionplan", th.StringType),
         th.Property("subsidiary", th.StringType),
     ).to_dict()
+    
+class ItemStream(suiteqlStream):
+    name = "Item"
+    path = "/query/v1/suiteql"
+    primary_keys = ["id"]
+    replication_key = "lastmodifieddate"
+    schema = th.PropertiesList(
+        th.Property("class", th.StringType),
+        th.Property("copydescription", th.StringType),
+        th.Property("createddate", th.DateType),
+        th.Property("custitem_o2s_c_item_imposto", th.StringType),
+        th.Property("custitem_o2s_l_item_cc_cancelamento", th.StringType),
+        th.Property("custitem_sit_item_l_cod_serv", th.StringType),
+        th.Property("description", th.StringType),
+        th.Property("displayname", th.StringType),
+        th.Property("enforceminqtyinternally", th.StringType),
+        th.Property("excludefromsitemap", th.StringType),
+        th.Property("froogleproductfeed", th.StringType),
+        th.Property("fullname", th.StringType),
+        th.Property("generateaccruals", th.StringType),
+        th.Property("id", th.StringType),
+        th.Property("includechildren", th.StringType),
+        th.Property("incomeaccount", th.StringType),
+        th.Property("isdropshipitem", th.StringType),
+        th.Property("isfulfillable", th.StringType),
+        th.Property("isinactive", th.StringType),
+        th.Property("isonline", th.StringType),
+        th.Property("isspecialorderitem", th.StringType),
+        th.Property("itemid", th.StringType),
+        th.Property("itemtype", th.StringType),
+        th.Property("lastmodifieddate", th.DateTimeType),
+        th.Property("matchbilltoreceipt", th.StringType),
+        th.Property("nextagproductfeed", th.StringType),
+        th.Property("parent", th.StringType),
+        th.Property("printitems", th.StringType),
+        th.Property("quantityavailable", th.StringType),
+        th.Property("shipindividually", th.StringType),
+        th.Property("shoppingproductfeed", th.StringType),
+        th.Property("shopzillaproductfeed", th.StringType),
+        th.Property("storedetaileddescription", th.StringType),
+        th.Property("subsidiary", th.StringType),
+        th.Property("subtype", th.StringType),
+        th.Property("yahooproductfeed", th.StringType),
+    ).to_dict()
