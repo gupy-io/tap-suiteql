@@ -209,7 +209,7 @@ class ItemStream(suiteqlStream):
     schema = th.PropertiesList(
         th.Property("class", th.StringType),
         th.Property("copydescription", th.StringType),
-        th.Property("createddate", th.DateType),
+        th.Property("createddate", th.StringType),
         th.Property("custitem_o2s_c_item_imposto", th.StringType),
         th.Property("custitem_o2s_l_item_cc_cancelamento", th.StringType),
         th.Property("custitem_sit_item_l_cod_serv", th.StringType),
