@@ -211,7 +211,7 @@ class SubscriptionChangeOrderStream(suiteqlStream):
         th.Property("custrecord_gpy_movtype_ls", th.StringType),
     ).to_dict()
 
-    
+
 class ItemStream(suiteqlStream):
     name = "Item"
     path = "/query/v1/suiteql"
