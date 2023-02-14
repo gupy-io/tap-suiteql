@@ -208,6 +208,7 @@ class SubscriptionChangeOrderStream(suiteqlStream):
         th.Property("subscriptionchangeorderstatus", th.StringType),
         th.Property("subscriptionplan", th.StringType),
         th.Property("subsidiary", th.StringType),
+        th.Property("custrecord_gpy_movtype_ls", th.StringType),
     ).to_dict()
 
     
