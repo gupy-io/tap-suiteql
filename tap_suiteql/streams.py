@@ -174,6 +174,15 @@ class CustomlistGpyReadjustmentindexStream(suiteqlStream):
     skip_attributes = ["links"]
 
 
+class CustomrecordGpyStatuschangeOrderStream(suiteqlStream):
+    name = "CustomrecordGpyStatuschangeOrder"
+    entity_name = "customrecord_gpy_statuschangeorder"
+    path = "/query/v1/suiteql"
+    metadata_path = "/record/v1/metadata-catalog/customrecord_gpy_statuschangeorder"
+    primary_keys = ["id"]
+    skip_attributes = ["links"]
+
+
 class SubscriptionChangeOrderStream(suiteqlStream):
     name = "SubscriptionChangeOrder"
     entity_name = "subscriptionchangeorder"
@@ -200,6 +209,7 @@ class SubscriptionChangeOrderStream(suiteqlStream):
         th.Property("subscriptionplan", th.StringType),
         th.Property("subsidiary", th.StringType),
     ).to_dict()
+
     
 class ItemStream(suiteqlStream):
     name = "Item"

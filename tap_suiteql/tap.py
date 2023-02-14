@@ -14,6 +14,7 @@ from tap_suiteql.streams import (
     CustomerStream,
     CustomlistGpyCompanysizeStream,
     CustomlistGpyReadjustmentindexStream,
+    CustomrecordGpyStatuschangeOrderStream,
     InvoiceStream,
     SubscriptionChangeOrderStream,
     SubscriptionLineStream,
@@ -34,6 +35,7 @@ STREAM_TYPES = {
     "CustomerPayment": CustomerPaymentStream,
     "CustomlistGpyCompanysize": CustomlistGpyCompanysizeStream,
     "CustomlistGpyReadjustmentindex": CustomlistGpyReadjustmentindexStream,
+    "CustomrecordGpyStatuschangeOrder": CustomrecordGpyStatuschangeOrderStream,
     "SubscriptionChangeOrder": SubscriptionChangeOrderStream,
     "Item": ItemStream,
 }
