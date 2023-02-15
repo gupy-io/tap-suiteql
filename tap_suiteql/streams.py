@@ -157,7 +157,7 @@ class CustomerPaymentStream(suiteqlStream):
 
 
 class CustomlistGpyCompanysizeStream(suiteqlStream):
-    name = "CustomListGpyCompanySize"
+    name = "CustomlistGpyCompanysize"
     entity_name = "customlist_gpy_companysize"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/customlist_gpy_companysize"
