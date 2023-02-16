@@ -195,7 +195,7 @@ class SubscriptionChangeOrderStream(suiteqlStream):
         th.Property("billingaccount", th.StringType),
         th.Property("createdby", th.StringType),
         th.Property("customer", th.StringType),
-        th.Property("custrecord_gpy_sco_effectivedate_dt", th.DateTimeType),
+        th.Property("custrecord_gpy_sco_closedate_dt", th.DateTimeType),
         th.Property("datecreated", th.DateTimeType),
         th.Property("effectivedate", th.DateTimeType),
         th.Property("id", th.StringType),
