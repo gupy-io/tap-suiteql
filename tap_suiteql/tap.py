@@ -17,6 +17,7 @@ from tap_suiteql.streams import (
     CustomrecordGpyStatuschangeOrderStream,
     InvoiceStream,
     ItemStream,
+    MonthlyRecurringRevenueStream,
     SubscriptionChangeOrderStream,
     SubscriptionLineStream,
     SubscriptionPlanStream,
@@ -38,6 +39,7 @@ STREAM_TYPES = {
     "CustomrecordGpyStatuschangeOrder": CustomrecordGpyStatuschangeOrderStream,
     "SubscriptionChangeOrder": SubscriptionChangeOrderStream,
     "Item": ItemStream,
+    "MonthlyRecurringRevenue": MonthlyRecurringRevenueStream,
 }
 
 
