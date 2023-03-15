@@ -49,12 +49,15 @@ class QueryBuilder:
         return where_statement
 
     def _build_order_statement(self):
-        order_statement = "order by "
-        if self.stream.replication_key:
-            order_statement += f"{self.stream.replication_key},{self.stream.primary_keys[0]}"
-        else:
-            order_statement += f"{self.stream.primary_keys[0]}"
-        return order_statement
+        order_statement = None
+
+        if self.stream.replication_key and self.stream.primary_keys:
+            order_statement = (
+                f"order by {self.stream.replication_key},{self.stream.primary_keys[0]}"
+            )
+        elif self.stream.replication_key is None and self.stream.primary_keys:
+            order_statement = f"order by {self.stream.primary_keys[0]}"
+        return "" if order_statement is None else order_statement
 
     def query(self) -> str:
         select_statement = self._build_select_statement()
@@ -62,6 +65,11 @@ class QueryBuilder:
         where_statement = self._build_where_statement()
         order_statement = self._build_order_statement()
 
-        query = f"{select_statement} {from_statement} {where_statement} {order_statement}".strip()
+        query = f"""
+            {select_statement}
+            {from_statement}
+            {where_statement}
+            {order_statement}
+        """.strip()
 
         return query
