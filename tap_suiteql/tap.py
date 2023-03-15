@@ -1,9 +1,9 @@
 """suiteql tap class."""
 import json
 import os
-from typing import List
+from typing import Any, List
 
-from singer_sdk import Stream, Tap
+from singer_sdk import Tap
 from singer_sdk import typing as th
 
 from tap_suiteql.query_builder import QueryBuilder  # JSON schema typing helpers
@@ -16,12 +16,12 @@ from tap_suiteql.streams import (
     CustomlistGpyReadjustmentindexStream,
     CustomrecordGpyStatuschangeOrderStream,
     InvoiceStream,
+    ItemStream,
     SubscriptionChangeOrderStream,
     SubscriptionLineStream,
     SubscriptionPlanStream,
     SubscriptionPriceIntervalStream,
     SubscriptionStream,
-    ItemStream,
 )
 
 STREAM_TYPES = {
@@ -85,9 +85,9 @@ class Tapsuiteql(Tap):
         ),
     ).to_dict()
 
-    def get_stream_types(self) -> List[Stream]:
+    def get_stream_types(self) -> List[Any]:
 
-        stream_types = []
+        stream_types: Any = []
         select_statement = json.loads(os.environ.get("TAP_SUITEQL__SELECT", '["*.*"]'))
 
         if select_statement == ["*.*"]:
@@ -99,10 +99,10 @@ class Tapsuiteql(Tap):
 
         return stream_types
 
-    def discover_streams(self) -> List[Stream]:
+    def discover_streams(self) -> List[Any]:
         """Return a list of discovered streams."""
 
-        stream_classes: List[Stream] = []
+        stream_classes: List[Any] = []
 
         for stream_class in self.get_stream_types():
             schema = SchemaBuilder(stream_class(tap=self)).schema()
