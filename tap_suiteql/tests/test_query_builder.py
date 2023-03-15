@@ -38,6 +38,23 @@ class DummyStreamWithoutReplicationKey:
     }
 
 
+class DummyStreamWithoutPrimaryKeys:
+    name = "dummy_without_primary_keys"
+    entity_name = ""
+    skip_attributes = []
+    primary_keys = None
+    replication_key = None
+    stream_type = None
+    schema = {
+        "type": "object",
+        "properties": {
+            "col_1": {},
+            "col_2": {},
+            "date_col": {"format": "date-time"},
+        },
+    }
+
+
 class DummyStreamTransaction:
     name = "dummy"
     entity_name = "dummy_transaction"
@@ -58,21 +75,39 @@ class DummyStreamTransaction:
 
 
 def test_sql_builder_with_replication_key():
-    expected = """select col_id,col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col,TO_CHAR(replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') replication_key_col from dummy where 1=1 and replication_key_col >= TO_DATE(:replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') order by replication_key_col,col_id"""  # noqa:E501
+    expected = """select col_id,col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col,TO_CHAR(replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') replication_key_col
+            from dummy
+            where 1=1 and replication_key_col >= TO_DATE(:replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS')
+            order by replication_key_col,col_id"""  # noqa:E501
     query = QueryBuilder(DummyStream).query()
 
     assert expected == query
 
 
 def test_sql_builder_without_replication_key():
-    expected = """select col_id,col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col from dummy_without_replication_key where 1=1 order by col_id"""  # noqa:E501
+    expected = """select col_id,col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col
+            from dummy_without_replication_key
+            where 1=1
+            order by col_id"""  # noqa:E501
     query = QueryBuilder(DummyStreamWithoutReplicationKey).query()
 
     assert expected == query
 
 
+def test_sql_builder_without_primary_keys():
+    expected = """select col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col
+            from dummy_without_primary_keys
+            where 1=1"""  # noqa:E501
+    query = QueryBuilder(DummyStreamWithoutPrimaryKeys).query()
+
+    assert expected == query
+
+
 def test_sql_builder_from_transaction():
-    expected = """select col_id,col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col,TO_CHAR(replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') replication_key_col from dummy_transaction where 1=1 and replication_key_col >= TO_DATE(:replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') and type = 'CustDummy' order by replication_key_col,col_id"""  # noqa:E501
+    expected = """select col_id,col_1,col_2,TO_CHAR(date_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') date_col,TO_CHAR(replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') replication_key_col
+            from dummy_transaction
+            where 1=1 and replication_key_col >= TO_DATE(:replication_key_col, 'YYYY-MM-DD\"T\"HH24:MI:SS') and type = 'CustDummy'
+            order by replication_key_col,col_id"""  # noqa:E501
     query = QueryBuilder(DummyStreamTransaction).query()
 
     assert expected == query
