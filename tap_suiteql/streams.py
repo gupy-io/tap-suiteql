@@ -255,3 +255,22 @@ class ItemStream(suiteqlStream):
         th.Property("subtype", th.StringType),
         th.Property("yahooproductfeed", th.StringType),
     ).to_dict()
+
+
+class MonthlyRecurringRevenueStream(suiteqlStream):
+    name = "MonthlyRecurringRevenue"
+    path = "/query/v1/suiteql"
+    primary_keys = ["id"]
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType),
+        th.Property("newchurnrevenue", th.StringType),
+        th.Property("otherrevenue", th.StringType),
+        th.Property("recurringrevenue", th.StringType),
+        th.Property("renewedrevenue", th.StringType),
+        th.Property("scheduledupdownsellrevenue", th.StringType),
+        th.Property("status", th.StringType),
+        th.Property("subscriptionline", th.StringType),
+        th.Property("updownsellrevenue", th.StringType),
+        th.Property("upforrenewalrevenue", th.StringType),
+        th.Property("yearmonth", th.DateTimeType),
+    ).to_dict()
