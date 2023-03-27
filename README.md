@@ -118,6 +118,7 @@ We extract the following entities with its respective method
 * SubscriptionChangeOrder -> static
 * Item -> static
 * MonthlyRecurringRevenue -> static
+* Charge -> dynamically
 
 ### SDK Dev Guide
 
