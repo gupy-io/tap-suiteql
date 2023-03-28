@@ -274,3 +274,12 @@ class MonthlyRecurringRevenueStream(suiteqlStream):
         th.Property("upforrenewalrevenue", th.StringType),
         th.Property("yearmonth", th.DateTimeType),
     ).to_dict()
+
+
+class ChargeStream(suiteqlStream):
+    name = "Charge"
+    path = "/query/v1/suiteql"
+    metadata_path = "/record/v1/metadata-catalog/charge"
+    primary_keys = ["id"]
+    skip_attributes = ["links"]
+    replication_key = "lastmodifieddate"

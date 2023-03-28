@@ -10,6 +10,7 @@ from tap_suiteql.query_builder import QueryBuilder  # JSON schema typing helpers
 from tap_suiteql.schema_builder import SchemaBuilder
 from tap_suiteql.streams import (
     ChangeOrderLineStream,
+    ChargeStream,
     CustomerPaymentStream,
     CustomerStream,
     CustomlistGpyCompanysizeStream,
@@ -33,6 +34,7 @@ STREAM_TYPES = {
     "SubscriptionPriceInterval": SubscriptionPriceIntervalStream,
     "SubscriptionPlan": SubscriptionPlanStream,
     "ChangeOrderLine": ChangeOrderLineStream,
+    "Charge": ChargeStream,
     "CustomerPayment": CustomerPaymentStream,
     "CustomlistGpyCompanysize": CustomlistGpyCompanysizeStream,
     "CustomlistGpyReadjustmentindex": CustomlistGpyReadjustmentindexStream,
