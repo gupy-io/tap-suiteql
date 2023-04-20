@@ -42,7 +42,6 @@ class SubscriptionLineStream(suiteqlStream):
     metadata_path = "/record/v1/metadata-catalog/subscriptionline"
     primary_keys = ["id"]
     skip_attributes = ["links"]
-    replication_key = "lastmodifieddate"
 
 
 class SubscriptionPriceIntervalStream(suiteqlStream):
