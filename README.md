@@ -119,6 +119,7 @@ We extract the following entities with its respective method
 * Item -> static
 * MonthlyRecurringRevenue -> static
 * Charge -> dynamically
+* CustomRecordGpyChangeOrderClassific -> dynamically
 
 ### SDK Dev Guide
 
