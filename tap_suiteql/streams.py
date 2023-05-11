@@ -283,3 +283,13 @@ class ChargeStream(suiteqlStream):
     primary_keys = ["id"]
     skip_attributes = ["links"]
     replication_key = "lastmodifieddate"
+
+
+class CustomRecordGpyChangeOrderClassificStream(suiteqlStream):
+    name = "CustomRecordGpyChangeOrderClassific"
+    entity_name = "customrecord_gpy_changeorderclassific"
+    path = "/query/v1/suiteql"
+    metadata_path = "/record/v1/metadata-catalog/customrecord_gpy_changeorderclassific"
+    primary_keys = ["id"]
+    skip_attributes = ["links"]
+    replication_key = "lastmodified"
