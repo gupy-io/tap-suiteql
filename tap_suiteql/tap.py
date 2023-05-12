@@ -92,7 +92,6 @@ class Tapsuiteql(Tap):
     ).to_dict()
 
     def get_stream_types(self) -> List[Any]:
-
         stream_types: Any = []
         select_statement = json.loads(os.environ.get("TAP_SUITEQL__SELECT", '["*.*"]'))
 
