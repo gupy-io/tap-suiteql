@@ -25,6 +25,7 @@ from tap_suiteql.streams import (
     SubscriptionPlanStream,
     SubscriptionPriceIntervalStream,
     SubscriptionStream,
+    BilligAccountStream,
 )
 
 STREAM_TYPES = {
@@ -44,6 +45,7 @@ STREAM_TYPES = {
     "SubscriptionChangeOrder": SubscriptionChangeOrderStream,
     "Item": ItemStream,
     "MonthlyRecurringRevenue": MonthlyRecurringRevenueStream,
+    "BilligAccount": BilligAccountStream,
 }
 
 
