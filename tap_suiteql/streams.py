@@ -298,7 +298,7 @@ class CustomRecordGpyChangeOrderClassificStream(suiteqlStream):
     replication_key = "lastmodified"
 
 
-class BilligAccountStream(suiteqlStream):
+class BillingAccountStream(suiteqlStream):
     name = "billingaccount"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/billingaccount"
