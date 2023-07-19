@@ -67,6 +67,9 @@ class SubscriptionPriceIntervalStream(suiteqlStream):
         th.Property("startoffsetvalue", th.StringType),
         th.Property("status", th.StringType),
         th.Property("subscription", th.StringType),
+        th.Property("discount", th.StringType),
+        th.Property("discountamount", th.StringType),
+        th.Property("discountpercent", th.StringType),
     ).to_dict()
 
 
@@ -293,3 +296,12 @@ class CustomRecordGpyChangeOrderClassificStream(suiteqlStream):
     primary_keys = ["id"]
     skip_attributes = ["links"]
     replication_key = "lastmodified"
+
+
+class BilligAccountStream(suiteqlStream):
+    name = "billingaccount"
+    path = "/query/v1/suiteql"
+    metadata_path = "/record/v1/metadata-catalog/billingaccount"
+    primary_keys = ["id"]
+    skip_attributes = ["links"]
+    replication_key = "lastmodifieddate"
