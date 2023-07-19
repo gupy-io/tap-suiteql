@@ -9,7 +9,7 @@ from singer_sdk import typing as th
 from tap_suiteql.query_builder import QueryBuilder  # JSON schema typing helpers
 from tap_suiteql.schema_builder import SchemaBuilder
 from tap_suiteql.streams import (
-    BilligAccountStream,
+    BillingAccountStream,
     ChangeOrderLineStream,
     ChargeStream,
     CustomerPaymentStream,
@@ -45,7 +45,7 @@ STREAM_TYPES = {
     "SubscriptionChangeOrder": SubscriptionChangeOrderStream,
     "Item": ItemStream,
     "MonthlyRecurringRevenue": MonthlyRecurringRevenueStream,
-    "BilligAccount": BilligAccountStream,
+    "BillingAccount": BillingAccountStream,
 }
 
 
