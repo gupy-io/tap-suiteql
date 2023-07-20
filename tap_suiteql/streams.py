@@ -299,7 +299,7 @@ class CustomRecordGpyChangeOrderClassificStream(suiteqlStream):
 
 
 class BillingAccountStream(suiteqlStream):
-    name = "billingaccount"
+    name = "BillingAccount"
     path = "/query/v1/suiteql"
     metadata_path = "/record/v1/metadata-catalog/billingaccount"
     primary_keys = ["id"]
