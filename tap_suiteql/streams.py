@@ -305,3 +305,30 @@ class BillingAccountStream(suiteqlStream):
     primary_keys = ["id"]
     skip_attributes = ["links"]
     replication_key = "lastmodifieddate"
+
+
+class SubscriptionLineRevisionStream(suiteqlStream):
+    name = "SubscriptionLineRevision"
+    path = "/query/v1/suiteql"
+    primary_keys = ["id"]
+    schema = th.PropertiesList(
+        th.Property("id", th.StringType),
+        th.Property("appliedtochangeorder", th.StringType),
+        th.Property("changeorder", th.StringType),
+        th.Property("changeordereffectivedate", th.StringType),
+        th.Property("createdby", th.StringType),
+        th.Property("createdfromvoid", th.StringType),
+        th.Property("datecreated", th.DateTimeType),
+        th.Property("dateend", th.DateTimeType),
+        th.Property("deltaamount", th.StringType),
+        th.Property("deltaquantity", th.StringType),
+        th.Property("lastmodifieddate", th.DateTimeType),
+        th.Property("priceplan", th.StringType),
+        th.Property("quantity", th.StringType),
+        th.Property("recurringamount", th.StringType),
+        th.Property("subscription", th.StringType),
+        th.Property("subscriptionline", th.StringType),
+        th.Property("subscriptionrevision", th.StringType),
+        th.Property("subsidiary", th.StringType),
+        th.Property("totalcontractvalue", th.StringType),
+    ).to_dict()
