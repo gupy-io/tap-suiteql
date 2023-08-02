@@ -22,11 +22,11 @@ from tap_suiteql.streams import (
     ItemStream,
     MonthlyRecurringRevenueStream,
     SubscriptionChangeOrderStream,
+    SubscriptionLineRevisionStream,
     SubscriptionLineStream,
     SubscriptionPlanStream,
     SubscriptionPriceIntervalStream,
     SubscriptionStream,
-    SubscriptionLineRevisionStream,
 )
 
 STREAM_TYPES = {
