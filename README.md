@@ -121,6 +121,7 @@ We extract the following entities with its respective method
 * Charge -> dynamically
 * CustomRecordGpyChangeOrderClassific -> dynamically
 * BillingAccount -> dynamically
+* SubscriptionLineRevision -> static
 
 ### SDK Dev Guide
 

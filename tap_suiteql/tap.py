@@ -22,6 +22,7 @@ from tap_suiteql.streams import (
     ItemStream,
     MonthlyRecurringRevenueStream,
     SubscriptionChangeOrderStream,
+    SubscriptionLineRevisionStream,
     SubscriptionLineStream,
     SubscriptionPlanStream,
     SubscriptionPriceIntervalStream,
@@ -46,6 +47,7 @@ STREAM_TYPES = {
     "Item": ItemStream,
     "MonthlyRecurringRevenue": MonthlyRecurringRevenueStream,
     "BillingAccount": BillingAccountStream,
+    "SubscriptionLineRevision": SubscriptionLineRevisionStream,
 }
 
 
