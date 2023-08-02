@@ -311,6 +311,7 @@ class SubscriptionLineRevisionStream(suiteqlStream):
     name = "SubscriptionLineRevision"
     path = "/query/v1/suiteql"
     primary_keys = ["id"]
+    replication_key = "lastmodifieddate"
     schema = th.PropertiesList(
         th.Property("id", th.StringType),
         th.Property("appliedtochangeorder", th.StringType),
