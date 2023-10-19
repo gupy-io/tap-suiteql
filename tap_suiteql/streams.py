@@ -264,6 +264,7 @@ class MonthlyRecurringRevenueStream(suiteqlStream):
     name = "MonthlyRecurringRevenue"
     path = "/query/v1/suiteql"
     primary_keys = ["id"]
+    year_date_field = "yearmonth"
     schema = th.PropertiesList(
         th.Property("id", th.StringType),
         th.Property("newchurnrevenue", th.StringType),

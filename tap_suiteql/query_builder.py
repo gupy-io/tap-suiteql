@@ -36,7 +36,12 @@ class QueryBuilder:
     def _build_where_statement(self):
         where_clauses = ["1=1"]
         where_statement = "where "
-
+        
+        if self.stream.year_date_field: # Filter added due to the limit of 100 thousand records that the Sensedata API returns 
+            where_clauses.append(
+                f"TO_CHAR({self.stream.year_date_field}, 'YYYY') >= 2023 and {self.stream.year_date_field} < ADD_MONTHS(SYSDATE, 3)" #noqa:E501
+            )            
+            
         if self.stream.replication_key:
             where_clauses.append(
                 f"{self.stream.replication_key} >= TO_DATE(:{self.stream.replication_key}, 'YYYY-MM-DD\"T\"HH24:MI:SS')"  # noqa:E501
