@@ -143,5 +143,4 @@ def test_sql_builder_with_filter():
             order by col_id"""  # noqa:E501
 
     query = QueryBuilder(DummyStreamWithFilter).query()
-    print(query)
     assert expected == query
