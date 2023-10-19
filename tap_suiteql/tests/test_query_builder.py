@@ -92,10 +92,9 @@ class DummyStreamWithFilter:
             "col_id": {},
             "col_1": {},
             "col_2": {},
-            "year_date_field": {"format": "date-time"},            
+            "year_date_field": {"format": "date-time"},
         },
     }
-
 
 
 def test_sql_builder_with_replication_key():
