@@ -139,7 +139,7 @@ def test_sql_builder_from_transaction():
 def test_sql_builder_with_filter():
     expected = """select col_id,col_1,col_2,TO_CHAR(year_date_field, 'YYYY-MM-DD\"T\"HH24:MI:SS') year_date_field
             from dummy_with_stream
-            where 1=1 and TO_CHAR(year_date_field, 'YYYY') >= 2023 and year_date_field < ADD_MONTHS(SYSDATE, 3)
+            where 1=1 and TO_CHAR(year_date_field, 'YYYY') >= 2024 and year_date_field < ADD_MONTHS(SYSDATE, 3)
             order by col_id"""  # noqa:E501
 
     query = QueryBuilder(DummyStreamWithFilter).query()
