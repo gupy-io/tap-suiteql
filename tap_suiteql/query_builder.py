@@ -41,7 +41,7 @@ class QueryBuilder:
             self.stream.year_date_field
         ):  # Filter added due to the limit of 100 thousand records that the Sensedata API returns # noqa:E501
             where_clauses.append(
-                f"TO_CHAR({self.stream.year_date_field}, 'YYYY') >= 2023 and {self.stream.year_date_field} < ADD_MONTHS(SYSDATE, 3)"  # noqa:E501
+                f"TO_CHAR({self.stream.year_date_field}, 'YYYY') >= 2024 and {self.stream.year_date_field} < ADD_MONTHS(SYSDATE, 3)"  # noqa:E501
             )
 
         if self.stream.replication_key:
