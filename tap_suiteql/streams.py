@@ -192,13 +192,13 @@ class SubscriptionChangeOrderStream(suiteqlStream):
     path = "/query/v1/suiteql"
     primary_keys = ["id"]
     replication_key = "lastmodifieddate"
+    skip_attributes = ["links"]
     schema = th.PropertiesList(
         th.Property("action", th.StringType),
         th.Property("approvalstatus", th.StringType),
         th.Property("billingaccount", th.StringType),
         th.Property("createdby", th.StringType),
         th.Property("customer", th.StringType),
-        th.Property("custrecord_gpy_sco_closedate_dt", th.DateTimeType),
         th.Property("datecreated", th.DateTimeType),
         th.Property("effectivedate", th.DateTimeType),
         th.Property("id", th.StringType),
@@ -211,32 +211,24 @@ class SubscriptionChangeOrderStream(suiteqlStream):
         th.Property("subscriptionchangeorderstatus", th.StringType),
         th.Property("subscriptionplan", th.StringType),
         th.Property("subsidiary", th.StringType),
-        th.Property("custrecord_gpy_movtype_ls", th.StringType),
     ).to_dict()
-
 
 class ItemStream(suiteqlStream):
     name = "Item"
     path = "/query/v1/suiteql"
     primary_keys = ["id"]
     replication_key = "lastmodifieddate"
+    skip_attributes = ["links"]
     schema = th.PropertiesList(
-        th.Property("class", th.StringType),
         th.Property("copydescription", th.StringType),
         th.Property("createddate", th.StringType),
-        th.Property("custitem_o2s_c_item_imposto", th.StringType),
-        th.Property("custitem_o2s_l_item_cc_cancelamento", th.StringType),
-        th.Property("custitem_sit_item_l_cod_serv", th.StringType),
-        th.Property("description", th.StringType),
-        th.Property("displayname", th.StringType),
         th.Property("enforceminqtyinternally", th.StringType),
-        th.Property("excludefromsitemap", th.StringType),
+        th.Property("expenseaccount", th.StringType),
         th.Property("froogleproductfeed", th.StringType),
         th.Property("fullname", th.StringType),
         th.Property("generateaccruals", th.StringType),
         th.Property("id", th.StringType),
         th.Property("includechildren", th.StringType),
-        th.Property("incomeaccount", th.StringType),
         th.Property("isdropshipitem", th.StringType),
         th.Property("isfulfillable", th.StringType),
         th.Property("isinactive", th.StringType),
@@ -253,12 +245,10 @@ class ItemStream(suiteqlStream):
         th.Property("shipindividually", th.StringType),
         th.Property("shoppingproductfeed", th.StringType),
         th.Property("shopzillaproductfeed", th.StringType),
-        th.Property("storedetaileddescription", th.StringType),
         th.Property("subsidiary", th.StringType),
         th.Property("subtype", th.StringType),
         th.Property("yahooproductfeed", th.StringType),
     ).to_dict()
-
 
 class MonthlyRecurringRevenueStream(suiteqlStream):
     name = "MonthlyRecurringRevenue"
