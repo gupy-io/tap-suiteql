@@ -31,7 +31,6 @@ jobs:
         poetry run tox -e lint
 
   pytest:
-    if: ${{ false }}
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
