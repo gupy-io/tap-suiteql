@@ -2,11 +2,10 @@
 
 from os import environ as env
 
+import pytest
 from singer_sdk.testing import get_tap_test_class
 
 from tap_suiteql.tap import Tapsuiteql
-
-import pytest
 
 # ...
 
