@@ -2,7 +2,7 @@
 
 from requests_oauthlib import OAuth1
 from singer_sdk.authenticators import APIAuthenticatorBase, SingletonMeta
-from singer_sdk.streams import Stream as RESTStreamBase
+from singer_sdk.streams import RESTStream
 
 
 # The SingletonMeta metaclass makes your streams reuse the same authenticator instance.
@@ -12,7 +12,7 @@ class suiteqlAuthenticator(APIAuthenticatorBase, metaclass=SingletonMeta):
 
     def __init__(
         self,
-        stream: RESTStreamBase,
+        stream: RESTStream,
     ) -> None:
         super().__init__(stream=stream)
 
