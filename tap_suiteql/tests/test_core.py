@@ -6,14 +6,21 @@ from singer_sdk.testing import get_tap_test_class
 
 from tap_suiteql.tap import Tapsuiteql
 
+import pytest
+
+# ...
+
+if not env.get("TAP_SUITEQL_START_DATE"):
+    pytest.skip("Missing TAP_SUITEQL_START_DATE, skipping tests", allow_module_level=True)
+
 SAMPLE_CONFIG = {
-    "start_date": env.get("TAP_SUITEQL_START_DATE", "2021-01-01T00:00:00Z"),
-    "consumer_secret": env.get("TAP_SUITEQL_CONSUMER_SECRET", "test"),
-    "consumer_key": env.get("TAP_SUITEQL_CONSUMER_KEY", "test"),
-    "token_id": env.get("TAP_SUITEQL_TOKEN_ID", "test"),
-    "token_secret": env.get("TAP_SUITEQL_TOKEN_SECRET", "test"),
-    "account_id": env.get("TAP_SUITEQL_ACCOUNT_ID", "test"),
-    "base_url": env.get("TAP_SUITEQL_BASE_URL", "https://test.com"),
+    "start_date": env.get("TAP_SUITEQL_START_DATE"),
+    "consumer_secret": env.get("TAP_SUITEQL_CONSUMER_SECRET"),
+    "consumer_key": env.get("TAP_SUITEQL_CONSUMER_KEY"),
+    "token_id": env.get("TAP_SUITEQL_TOKEN_ID"),
+    "token_secret": env.get("TAP_SUITEQL_TOKEN_SECRET"),
+    "account_id": env.get("TAP_SUITEQL_ACCOUNT_ID"),
+    "base_url": env.get("TAP_SUITEQL_BASE_URL"),
 }
 
 
