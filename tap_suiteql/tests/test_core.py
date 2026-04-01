@@ -11,7 +11,9 @@ import pytest
 # ...
 
 if not env.get("TAP_SUITEQL_START_DATE"):
-    pytest.skip("Missing TAP_SUITEQL_START_DATE, skipping tests", allow_module_level=True)
+    pytest.skip(
+        "Missing TAP_SUITEQL_START_DATE, skipping tests", allow_module_level=True
+    )
 
 SAMPLE_CONFIG = {
     "start_date": env.get("TAP_SUITEQL_START_DATE"),
@@ -25,10 +27,7 @@ SAMPLE_CONFIG = {
 
 
 # Run standard built-in tap tests from the SDK:
-TestTapSuiteql = get_tap_test_class(
-    tap_class=Tapsuiteql,
-    config=SAMPLE_CONFIG
-)
+TestTapSuiteql = get_tap_test_class(tap_class=Tapsuiteql, config=SAMPLE_CONFIG)
 
 
 # TODO: Create additional tests as appropriate for your tap.

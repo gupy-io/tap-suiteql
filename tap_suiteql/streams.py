@@ -213,6 +213,7 @@ class SubscriptionChangeOrderStream(suiteqlStream):
         th.Property("subsidiary", th.StringType),
     ).to_dict()
 
+
 class ItemStream(suiteqlStream):
     name = "Item"
     path = "/query/v1/suiteql"
@@ -249,6 +250,7 @@ class ItemStream(suiteqlStream):
         th.Property("subtype", th.StringType),
         th.Property("yahooproductfeed", th.StringType),
     ).to_dict()
+
 
 class MonthlyRecurringRevenueStream(suiteqlStream):
     name = "MonthlyRecurringRevenue"
