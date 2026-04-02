@@ -1,7 +1,7 @@
 """REST client handling, including suiteqlStream base class."""
 
 import logging
-from typing import Any, Dict, List, Optional, cast
+from typing import Any, Dict, List, Mapping, Optional, cast
 from urllib.parse import parse_qsl, urlparse
 
 import backoff
@@ -58,7 +58,7 @@ class suiteqlStream(RESTStream):
         return headers
 
     def prepare_request(
-        self, context: Optional[dict], next_page_token: Optional[Any]
+        self, context: Optional[Mapping[str, Any]], next_page_token: Optional[Any]
     ) -> requests.PreparedRequest:
         http_method = self.rest_method
 
@@ -126,7 +126,7 @@ class suiteqlStream(RESTStream):
         return response.json()
 
     def get_url_params(
-        self, context: Optional[dict], next_page_token: Optional[Any]
+        self, context: Optional[Mapping[str, Any]], next_page_token: Optional[Any]
     ) -> Dict[str, Any]:
         """Return a dictionary of values to be used in URL parameterization."""
         params: dict = {}
@@ -138,7 +138,7 @@ class suiteqlStream(RESTStream):
         return params
 
     def prepare_request_payload(
-        self, context: Optional[dict], next_page_token: Optional[Any]
+        self, context: Optional[Mapping[str, Any]], next_page_token: Optional[Any]
     ) -> Optional[dict]:
         """Prepare the data payload for the REST API request.
 
@@ -159,7 +159,9 @@ class suiteqlStream(RESTStream):
         logging.debug(f"current_body: {current_body}")
         return {"q": current_body}
 
-    def post_process(self, row: dict, context: Optional[dict] = None) -> dict:
+    def post_process(
+        self, row: dict, context: Optional[Mapping[str, Any]] = None
+    ) -> dict:
         """As needed, append or transform raw data to match expected structure.
         Args:
             row: required - the record for processing.
